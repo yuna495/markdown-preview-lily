@@ -38138,22 +38138,22 @@ ${end2.comment}` : end2.comment;
       const style = document.createElement("style");
       style.textContent = `
       .markmap-node {
-        color: #ffffff !important;
-        fill: #ffffff !important;
+        color: #11ff84 !important;
+        fill: #11ff84 !important;
       }
       .markmap-node text {
         fill: #11ff84 !important;
       }
       .markmap-node foreignObject {
-        color: #ffffff !important;
+        color: #11ff84 !important;
       }
       .markmap-body-text {
         font-weight: normal;
         font-size: 0.9em;
         color: #cccccc !important;
-        display: inline-block; /* \u884C\u9001\u308A\u306A\u3069\u306B\u5F71\u97FF\u3057\u306A\u3044\u3088\u3046\u306B */
+        fill: #cccccc !important;
+        display: inline-block;
       }
-      /* \u30EA\u30F3\u30AF\u306A\u3069\u306E\u8272\u3082\u898B\u3084\u3059\u304F */
       .markmap-node a {
         color: #8cb4ff !important;
       }
@@ -38170,9 +38170,8 @@ ${end2.comment}` : end2.comment;
       preElement.replaceWith(container);
       const mm = it.create(svg, {
         spacingVertical: 35,
-        // 縦幅をかなり広げる
+        // 縦幅を広げる
         paddingX: 20
-        // 横のパディングも少し調整
       }, root3);
       Toolbar.create(mm, toolbar);
       const resetButton = document.createElement("button");
@@ -38184,20 +38183,7 @@ ${end2.comment}` : end2.comment;
         mm.fit();
       };
       toolbar.appendChild(resetButton);
-      requestAnimationFrame(async () => {
-        await mm.fit();
-        const gElement = mm.g.node();
-        if (gElement) {
-          const bbox = gElement.getBBox();
-          if (bbox && bbox.height) {
-            const newHeight = bbox.height + 100;
-            if (newHeight > 400) {
-              container.style.height = `${newHeight}px`;
-              await mm.fit();
-            }
-          }
-        }
-      });
+      mm.fit();
     });
   }
   renderMarkmaps();

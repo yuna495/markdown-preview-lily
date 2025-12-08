@@ -98,27 +98,25 @@ function renderMarkmaps() {
     svg.style.width = '100%';
 
     // SVG内のテキスト色を明るくするスタイルを追加
-    // MarkmapはHTMLを埋め込むのにforeignObjectを使うことがあるため、
-    // divやspanなどのHTML要素に対してもcolorを指定する。
     const style = document.createElement('style');
     style.textContent = `
       .markmap-node {
-        color: #ffffff !important;
-        fill: #ffffff !important;
+        color: #11ff84 !important;
+        fill: #11ff84 !important;
       }
       .markmap-node text {
         fill: #11ff84 !important;
       }
       .markmap-node foreignObject {
-        color: #ffffff !important;
+        color: #11ff84 !important;
       }
       .markmap-body-text {
         font-weight: normal;
         font-size: 0.9em;
-        color: #cccccc !important;
-        display: inline-block; /* 行送りなどに影響しないように */
+        color: #fd9bcc !important;
+        fill: #fd9bcc !important;
+        display: inline-block;
       }
-      /* リンクなどの色も見やすく */
       .markmap-node a {
         color: #8cb4ff !important;
       }
@@ -138,8 +136,8 @@ function renderMarkmaps() {
 
     // Markmapを描画
     const mm = Markmap.create(svg, {
-      spacingVertical: 35, // 縦幅をかなり広げる
-      paddingX: 20, // 横のパディングも少し調整
+      spacingVertical: 35, // 縦幅を広げる
+      paddingX: 20,
     }, root);
 
     Toolbar.create(mm, toolbar);
@@ -154,21 +152,8 @@ function renderMarkmaps() {
     };
     toolbar.appendChild(resetButton);
 
-    // 初回レンダリング後に高さを調整 (BBox使用)
-    requestAnimationFrame(async () => {
-        await mm.fit();
-        const gElement = mm.g.node();
-        if (gElement) {
-            const bbox = gElement.getBBox();
-            if (bbox && bbox.height) {
-                const newHeight = bbox.height + 100; // 余白を多めに
-                if (newHeight > 400) {
-                     container.style.height = `${newHeight}px`;
-                     await mm.fit();
-                }
-            }
-        }
-    });
+    // デフォルトでfitさせる
+    mm.fit();
   });
 }
 
