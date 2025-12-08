@@ -17,11 +17,7 @@
     "markdown.previewScripts": [
       "./dist/markmap.js"
     ],
-    "markdown.markdownItPlugins": [
-      {
-        "module": "./src/markmap-it-plugin"
-      }
-    ]
+    "markdown.markdownItPlugins": true
   },
   "icon": "./image/icon.png",
   "scripts": {
