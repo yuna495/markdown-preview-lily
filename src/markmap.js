@@ -87,15 +87,19 @@ function renderMarkmaps() {
     const { root } = transformer.transform(markdown);
 
     const container = document.createElement('div');
-    container.style.height = '1000px';
+    // 固定の高さは削除し、コンテンツに合わせて広がるようにする
     container.style.position = 'relative';
     container.style.width = '100vw';
     container.style.maxWidth = '100vw';
     container.style.marginLeft = '50%';
     container.style.transform = 'translateX(-50%)';
+    // 初期高さは最小限に
+    container.style.height = 'auto';
+    container.style.minHeight = '150px';
 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.style.width = '100%';
+    // 高さも初期はautoだが、JSで制御する
 
     // SVG内のテキスト色を明るくするスタイルを追加
     const style = document.createElement('style');
@@ -153,7 +157,24 @@ function renderMarkmaps() {
     toolbar.appendChild(resetButton);
 
     // デフォルトでfitさせる
-    mm.fit();
+    // データをセットして描画完了を待ち、高さを調整する
+    (async () => {
+        // setDataは不要（createで渡しているため）だが、念のためrender完了を待つ意味でfitを呼ぶ
+        await mm.fit();
+
+        // mm.state.rect から描画領域の高さを取得する
+        const { y2 } = mm.state.rect;
+        // 縦幅が小さい場合でも十分な余白を確保するため固定値を加算
+        const height = y2 * 1.5 + 300;
+
+        if (height > 0) {
+            svg.style.height = `${height}px`;
+            container.style.height = `${height}px`; // コンテナも合わせる
+        }
+
+        // 高さ変更後に再調整
+        await mm.fit();
+    })();
   });
 }
 

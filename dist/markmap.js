@@ -38127,12 +38127,13 @@ ${end2.comment}` : end2.comment;
       const markdown = processMarkdown(rawMarkdown);
       const { root: root3 } = transformer.transform(markdown);
       const container = document.createElement("div");
-      container.style.height = "1000px";
       container.style.position = "relative";
       container.style.width = "100vw";
       container.style.maxWidth = "100vw";
       container.style.marginLeft = "50%";
       container.style.transform = "translateX(-50%)";
+      container.style.height = "auto";
+      container.style.minHeight = "150px";
       const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       svg.style.width = "100%";
       const style = document.createElement("style");
@@ -38150,8 +38151,8 @@ ${end2.comment}` : end2.comment;
       .markmap-body-text {
         font-weight: normal;
         font-size: 0.9em;
-        color: #cccccc !important;
-        fill: #cccccc !important;
+        color: #fd9bcc !important;
+        fill: #fd9bcc !important;
         display: inline-block;
       }
       .markmap-node a {
@@ -38183,7 +38184,16 @@ ${end2.comment}` : end2.comment;
         mm.fit();
       };
       toolbar.appendChild(resetButton);
-      mm.fit();
+      (async () => {
+        await mm.fit();
+        const { y2 } = mm.state.rect;
+        const height = y2 * 2 + 200;
+        if (height > 0) {
+          svg.style.height = `${height}px`;
+          container.style.height = `${height}px`;
+        }
+        await mm.fit();
+      })();
     });
   }
   renderMarkmaps();
