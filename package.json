@@ -17,6 +17,7 @@
       "title": "Hello World"
     }]
   },
+  "icon": "./image/icon.png",
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
@@ -29,5 +30,9 @@
     "eslint": "^9.39.1",
     "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.5.2"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/yuna495/markdown-preview-plus.git"
   }
 }
