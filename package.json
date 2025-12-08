@@ -17,6 +17,9 @@
     "markdown.previewScripts": [
       "./dist/markmap.js"
     ],
+    "markdown.previewStyles": [
+      "./node_modules/markmap-toolbar/dist/style.css"
+    ],
     "markdown.markdownItPlugins": true
   },
   "icon": "./image/icon.png",
