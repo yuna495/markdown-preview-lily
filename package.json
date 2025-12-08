@@ -1,38 +1,46 @@
 {
   "name": "markdown-preview-plus",
   "displayName": "Markdown Preview Plus",
-  "description": "Preview plus",
+  "description": "Show markmap in markdown preview",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.106.1"
+    "vscode": "^1.85.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
-  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
+  "main": "./src/extension.js",
   "contributes": {
-    "commands": [{
-      "command": "markdown-preview-plus.helloWorld",
-      "title": "Hello World"
-    }]
+    "markdown.previewScripts": [
+      "./dist/markmap.js"
+    ]
   },
   "icon": "./image/icon.png",
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "build:script": "npx esbuild ./src/markmap.js --bundle --outfile=dist/markmap.js --format=iife --platform=browser"
   },
   "devDependencies": {
-    "@types/vscode": "^1.106.1",
-    "@types/mocha": "^10.0.10",
+    "@types/vscode": "^1.85.0",
+    "@types/mocha": "^10.0.6",
     "@types/node": "22.x",
-    "eslint": "^9.39.1",
+    "eslint": "^8.57.0",
     "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.3.9",
+    "esbuild": "^0.21.4"
   },
   "repository": {
     "type": "github",
     "url": "https://github.com/yuna495/markdown-preview-plus.git"
+  },
+  "dependencies": {
+    "markmap-lib": "^0.17.0",
+    "markmap-toolbar": "^0.17.0",
+    "markmap-view": "^0.17.0"
   }
 }
