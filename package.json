@@ -22,7 +22,7 @@
     ],
     "markdown.markdownItPlugins": true
   },
-  "icon": "./image/icon.png",
+  "icon": "image/icon.png",
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
@@ -48,5 +48,6 @@
     "markmap-lib": "^0.18.12",
     "markmap-toolbar": "^0.18.12",
     "markmap-view": "^0.18.12"
-  }
+  },
+  "license": "MIT"
 }

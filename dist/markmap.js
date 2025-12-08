@@ -38175,36 +38175,12 @@ ${end2.comment}` : end2.comment;
       const mm = it.create(svg, {
         spacingVertical: 10,
         // 縦幅を広げる
-        paddingX: 20
+        paddingX: 20,
+        maxWidth: 300
+        // 自動折り返し幅
       }, root3);
       Toolbar.create(mm, toolbar);
-      const resetButton = document.createElement("button");
-      resetButton.textContent = "Reset";
-      resetButton.type = "button";
-      resetButton.style.zIndex = "999";
-      resetButton.style.cursor = "pointer";
-      resetButton.onclick = (e) => {
-        e.stopPropagation();
-        mm.fit();
-      };
-      toolbar.appendChild(resetButton);
-      const blockEvents = [
-        "click",
-        "dblclick",
-        "mousedown",
-        "mouseup",
-        "mousemove",
-        "wheel",
-        "pointerdown",
-        "pointerup",
-        "pointermove"
-      ];
-      blockEvents.forEach((evt) => {
-        container.addEventListener(evt, (e) => {
-          e.stopPropagation();
-        });
-      });
-      (async () => {
+      const updateLayout = async () => {
         await mm.fit();
         const { y2 } = mm.state.rect;
         let calculatedHeight = y2 * 1.5 + 300;
@@ -38217,6 +38193,55 @@ ${end2.comment}` : end2.comment;
           container.style.height = `${calculatedHeight}px`;
         }
         await mm.fit();
+      };
+      const refreshButton = document.createElement("button");
+      refreshButton.textContent = "\u21BB";
+      refreshButton.type = "button";
+      refreshButton.title = "Refresh Layout";
+      refreshButton.style.zIndex = "999";
+      refreshButton.style.cursor = "pointer";
+      refreshButton.style.width = "30px";
+      refreshButton.style.height = "30px";
+      refreshButton.style.borderRadius = "50%";
+      refreshButton.style.border = "1px solid #ccc";
+      refreshButton.style.background = "#fff";
+      refreshButton.style.color = "#333";
+      refreshButton.style.fontSize = "16px";
+      refreshButton.style.display = "flex";
+      refreshButton.style.alignItems = "center";
+      refreshButton.style.justifyContent = "center";
+      refreshButton.style.marginBottom = "5px";
+      refreshButton.onclick = (e) => {
+        e.stopPropagation();
+        updateLayout();
+      };
+      toolbar.style.flexDirection = "column";
+      if (toolbar.firstChild) {
+        toolbar.insertBefore(refreshButton, toolbar.firstChild);
+      } else {
+        toolbar.appendChild(refreshButton);
+      }
+      const blockEvents = [
+        "click",
+        "dblclick",
+        "mousedown",
+        "mouseup",
+        "mousemove",
+        "wheel",
+        "pointerdown",
+        "pointerup",
+        "pointermove",
+        "contextmenu"
+        // 右クリックメニューも防ぐ
+      ];
+      blockEvents.forEach((evt) => {
+        container.addEventListener(evt, (e) => {
+          e.stopPropagation();
+        });
+      });
+      (async () => {
+        await mm.fit();
+        await updateLayout();
       })();
     });
   }

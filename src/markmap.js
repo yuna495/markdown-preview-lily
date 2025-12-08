@@ -147,27 +147,71 @@ function renderMarkmaps() {
     const mm = Markmap.create(svg, {
       spacingVertical: 10, // 縦幅を広げる
       paddingX: 20,
+      maxWidth: 300, // 自動折り返し幅
     }, root);
 
     Toolbar.create(mm, toolbar);
 
-    const resetButton = document.createElement('button');
-    resetButton.textContent = 'Reset';
-    resetButton.type = 'button';
-    resetButton.style.zIndex = '999';
-    resetButton.style.cursor = 'pointer';
-    resetButton.onclick = (e) => {
-      e.stopPropagation(); // VS Codeへのイベント伝播を阻止
-      mm.fit();
+    // レイアウト更新ロジックを関数化
+    // mmが定義された後に作成する必要がある
+    const updateLayout = async () => {
+        await mm.fit();
+        const { y2 } = mm.state.rect;
+
+        let calculatedHeight = y2 * 1.5 + 300;
+        const MAX_HEIGHT = 900;
+
+        if (calculatedHeight > MAX_HEIGHT) {
+            calculatedHeight = MAX_HEIGHT;
+        }
+
+        if (calculatedHeight > 0) {
+            svg.style.height = `${calculatedHeight}px`;
+            container.style.height = `${calculatedHeight}px`;
+        }
+        await mm.fit();
     };
-    toolbar.appendChild(resetButton);
+
+    // 更新ボタン (右上に配置)
+    const refreshButton = document.createElement('button');
+    refreshButton.textContent = '↻';
+    refreshButton.type = 'button';
+    refreshButton.title = 'Refresh Layout';
+    refreshButton.style.zIndex = '999';
+    refreshButton.style.cursor = 'pointer';
+    refreshButton.style.width = '30px';
+    refreshButton.style.height = '30px';
+    refreshButton.style.borderRadius = '50%'; // 丸くする
+    refreshButton.style.border = '1px solid #ccc';
+    refreshButton.style.background = '#fff';
+    refreshButton.style.color = '#333';
+    refreshButton.style.fontSize = '16px';
+    refreshButton.style.display = 'flex';
+    refreshButton.style.alignItems = 'center';
+    refreshButton.style.justifyContent = 'center';
+    refreshButton.style.marginBottom = '5px'; // 標準ツールバーとの間隔
+
+    refreshButton.onclick = (e) => {
+        e.stopPropagation();
+        updateLayout();
+    };
+
+    // ツールバーを縦並びにする
+    toolbar.style.flexDirection = 'column';
+    // 標準ツールバーの前に更新ボタンを追加して、一番上に表示されるようにする
+    if (toolbar.firstChild) {
+        toolbar.insertBefore(refreshButton, toolbar.firstChild);
+    } else {
+        toolbar.appendChild(refreshButton);
+    }
 
     // 描画エリア内でのクリック・ドラッグイベントがVS Code側に伝わらないようにする
     const blockEvents = [
         'click', 'dblclick',
         'mousedown', 'mouseup', 'mousemove',
         'wheel',
-        'pointerdown', 'pointerup', 'pointermove'
+        'pointerdown', 'pointerup', 'pointermove',
+        'contextmenu' // 右クリックメニューも防ぐ
     ];
     blockEvents.forEach(evt => {
         container.addEventListener(evt, (e) => {
@@ -175,37 +219,15 @@ function renderMarkmaps() {
         });
     });
 
-    // デフォルトでfitさせる
-    // データをセットして描画完了を待ち、高さを調整する
+    // 初期レイアウト更新
+    // mm.fit() だけでなく updateLayout() を呼ぶことで高さ計算も行う
     (async () => {
         // setDataは不要（createで渡しているため）だが、念のためrender完了を待つ意味でfitを呼ぶ
         await mm.fit();
-
-        // mm.state.rect から描画領域の高さを取得する
-        const { y2 } = mm.state.rect;
-
-        // 縦幅の計算
-        let calculatedHeight = y2 * 1.5 + 300;
-
-        // ★重要: 上限値を設定 (例: 900px)
-        const MAX_HEIGHT = 900;
-
-        // 上限を超えないように制限する
-        if (calculatedHeight > MAX_HEIGHT) {
-            calculatedHeight = MAX_HEIGHT;
-        }
-
-        if (calculatedHeight > 0) {
-            svg.style.height = `${calculatedHeight}px`;
-            container.style.height = `${calculatedHeight}px`; // コンテナも合わせる
-        }
-
-        // 高さ変更後に再調整
-        await mm.fit();
+        await updateLayout();
     })();
   });
 }
-
 // 初期レンダリング
 renderMarkmaps();
 

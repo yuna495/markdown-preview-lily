@@ -1,65 +1,20 @@
-# markdown-preview-plus README
+# Markdown Enhanced Visualizer README
 
-This is the README for your extension "markdown-preview-plus". After writing up a brief description, we recommend including the following sections.
+Markdown Enhanced Visualizer は、VS Codeの標準Markdownプレビューを拡張し、複雑な構造化された情報を視覚的に表現する機能を追加します。
 
-## Features
+## ✨ Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+* **Markmap (マインドマップ) 描画**: Markdownの階層構造をインタラクティブなマインドマップとしてプレビューします。
+* **カスタムレンダリング**: Markmapの描画エリアを**600pxの高さ**に固定し、視認性を高めます。
+* **Zoom/Fit機能**: ホイール操作で拡大/縮小。"Reset"ボタンで初期化。
 
-For example if there is an image subfolder under your extension project workspace:
+## 💡 Usage
 
-\!\[feature X\]\(images/feature-x.png\)
+Markmapを描画したいMarkdownブロックで、言語識別子として `markmap` を使用してください。
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+```markdown
+```markmap
+# Root Topic
+## Feature A
+### Detail 1
+## Feature B
