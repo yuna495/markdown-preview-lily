@@ -129,14 +129,10 @@ const renderMermaid = async () => {
                         return btn;
                     };
 
-                    const btnPlus = createBtn('+', () => d3Svg.transition().call(zoomBehavior.scaleBy, 1.2));
-                    const btnMinus = createBtn('-', () => d3Svg.transition().call(zoomBehavior.scaleBy, 0.8));
                     const btnReset = createBtn('⟲', () => {
                          d3Svg.transition().call(zoomBehavior.transform, initialTransform);
                     });
 
-                    toolbar.appendChild(btnPlus);
-                    toolbar.appendChild(btnMinus);
                     toolbar.appendChild(btnReset);
                     container.appendChild(toolbar);
 
