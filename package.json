@@ -30,21 +30,23 @@
     "build:script": "npx esbuild ./src/markmap.js --bundle --outfile=dist/markmap.js --format=iife --platform=browser"
   },
   "devDependencies": {
-    "@types/vscode": "^1.85.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "22.x",
-    "eslint": "^8.57.0",
+    "@types/vscode": "^1.85.0",
     "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.3.9",
-    "esbuild": "^0.21.4"
+    "esbuild": "^0.21.4",
+    "eslint": "^8.57.0"
   },
   "repository": {
     "type": "github",
     "url": "https://github.com/yuna495/markdown-preview-plus.git"
   },
   "dependencies": {
-    "markmap-lib": "^0.17.0",
-    "markmap-toolbar": "^0.17.0",
-    "markmap-view": "^0.17.0"
+    "d3-scale": "^4.0.2",
+    "d3-selection": "^3.0.0",
+    "markmap-lib": "^0.18.12",
+    "markmap-toolbar": "^0.18.12",
+    "markmap-view": "^0.18.12"
   }
 }
