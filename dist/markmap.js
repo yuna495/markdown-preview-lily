@@ -38173,25 +38173,42 @@ ${end2.comment}` : end2.comment;
       container.append(svg, toolbar);
       preElement.replaceWith(container);
       const mm = it.create(svg, {
-        spacingVertical: 35,
+        spacingVertical: 10,
         // 縦幅を広げる
         paddingX: 20
       }, root3);
       Toolbar.create(mm, toolbar);
       const resetButton = document.createElement("button");
-      resetButton.textContent = "Reset Zoom";
+      resetButton.textContent = "Reset";
       resetButton.type = "button";
       resetButton.style.zIndex = "999";
       resetButton.style.cursor = "pointer";
-      resetButton.onclick = () => {
+      resetButton.onclick = (e) => {
+        e.stopPropagation();
         mm.fit();
       };
       toolbar.appendChild(resetButton);
+      const blockEvents = [
+        "click",
+        "dblclick",
+        "mousedown",
+        "mouseup",
+        "mousemove",
+        "wheel",
+        "pointerdown",
+        "pointerup",
+        "pointermove"
+      ];
+      blockEvents.forEach((evt) => {
+        container.addEventListener(evt, (e) => {
+          e.stopPropagation();
+        });
+      });
       (async () => {
         await mm.fit();
         const { y2 } = mm.state.rect;
         let calculatedHeight = y2 * 1.5 + 300;
-        const MAX_HEIGHT = 800;
+        const MAX_HEIGHT = 900;
         if (calculatedHeight > MAX_HEIGHT) {
           calculatedHeight = MAX_HEIGHT;
         }

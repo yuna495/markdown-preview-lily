@@ -145,7 +145,7 @@ function renderMarkmaps() {
 
     // Markmapを描画
     const mm = Markmap.create(svg, {
-      spacingVertical: 35, // 縦幅を広げる
+      spacingVertical: 10, // 縦幅を広げる
       paddingX: 20,
     }, root);
 
@@ -156,10 +156,24 @@ function renderMarkmaps() {
     resetButton.type = 'button';
     resetButton.style.zIndex = '999';
     resetButton.style.cursor = 'pointer';
-    resetButton.onclick = () => {
+    resetButton.onclick = (e) => {
+      e.stopPropagation(); // VS Codeへのイベント伝播を阻止
       mm.fit();
     };
     toolbar.appendChild(resetButton);
+
+    // 描画エリア内でのクリック・ドラッグイベントがVS Code側に伝わらないようにする
+    const blockEvents = [
+        'click', 'dblclick',
+        'mousedown', 'mouseup', 'mousemove',
+        'wheel',
+        'pointerdown', 'pointerup', 'pointermove'
+    ];
+    blockEvents.forEach(evt => {
+        container.addEventListener(evt, (e) => {
+            e.stopPropagation();
+        });
+    });
 
     // デフォルトでfitさせる
     // データをセットして描画完了を待ち、高さを調整する
@@ -173,8 +187,8 @@ function renderMarkmaps() {
         // 縦幅の計算
         let calculatedHeight = y2 * 1.5 + 300;
 
-        // ★重要: 上限値を設定 (例: 800px)
-        const MAX_HEIGHT = 800;
+        // ★重要: 上限値を設定 (例: 900px)
+        const MAX_HEIGHT = 900;
 
         // 上限を超えないように制限する
         if (calculatedHeight > MAX_HEIGHT) {
