@@ -38078,12 +38078,14 @@ ${end2.comment}` : end2.comment;
     const lines = markdown.split("\n");
     let newLines = [];
     let inCodeBlock = false;
+    let lastHeaderIndex = -1;
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
       const trimmed = line.trim();
       if (trimmed.startsWith("```")) {
         inCodeBlock = !inCodeBlock;
         newLines.push(line);
+        lastHeaderIndex = -1;
         continue;
       }
       if (inCodeBlock) {
@@ -38094,11 +38096,22 @@ ${end2.comment}` : end2.comment;
         newLines.push(line);
         continue;
       }
-      if (trimmed.startsWith("#") || trimmed.startsWith("- ") || trimmed.startsWith("* ") || trimmed.startsWith(">")) {
+      if (trimmed.startsWith("#")) {
         newLines.push(line);
+        lastHeaderIndex = newLines.length - 1;
         continue;
       }
-      newLines.push(`- <span class="markmap-body-text" style="font-weight:normal; font-size:0.9em; color:#555;">${line}</span>`);
+      if (trimmed.startsWith("- ") || trimmed.startsWith("* ") || trimmed.startsWith(">") || /^\d+\. /.test(trimmed)) {
+        newLines.push(line);
+        lastHeaderIndex = -1;
+        continue;
+      }
+      if (lastHeaderIndex !== -1) {
+        const currentHeader = newLines[lastHeaderIndex];
+        newLines[lastHeaderIndex] = `${currentHeader}<br/><span class="markmap-body-text" style="font-weight:normal; font-size:0.9em; color:#ddd;">${trimmed}</span>`;
+      } else {
+        newLines.push(`- <span class="markmap-body-text" style="font-weight:normal; font-size:0.9em; color:#ddd;">${trimmed}</span>`);
+      }
     }
     return newLines.join("\n");
   }
@@ -38122,6 +38135,16 @@ ${end2.comment}` : end2.comment;
       container.style.transform = "translateX(-50%)";
       const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       svg.style.width = "100%";
+      const style = document.createElement("style");
+      style.textContent = `
+      .markmap-node text {
+        fill: #ffffff !important;
+      }
+      .markmap-body-text {
+        fill: #cccccc !important;
+      }
+    `;
+      svg.append(style);
       const toolbar = document.createElement("div");
       toolbar.style.position = "absolute";
       toolbar.style.right = "20px";
@@ -38144,18 +38167,19 @@ ${end2.comment}` : end2.comment;
         mm.fit();
       };
       toolbar.appendChild(resetButton);
-      requestAnimationFrame(() => {
-        mm.fit().then(() => {
-          const state = mm.state;
-          if (state && state.minY !== void 0 && state.maxY !== void 0) {
-            const naturalHeight = state.maxY - state.minY;
-            const newHeight = naturalHeight + 40 + 20;
+      requestAnimationFrame(async () => {
+        await mm.fit();
+        const gElement = mm.g.node();
+        if (gElement) {
+          const bbox = gElement.getBBox();
+          if (bbox && bbox.height) {
+            const newHeight = bbox.height + 60;
             if (newHeight > 400) {
               container.style.height = `${newHeight}px`;
-              mm.fit();
+              await mm.fit();
             }
           }
-        });
+        }
       });
     });
   }

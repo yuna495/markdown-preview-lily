@@ -8,12 +8,13 @@ import { Toolbar } from 'markmap-toolbar';
 const transformer = new Transformer();
 
 /**
- * Markdownの本文（パラグラフ）をリストアイテムに変換してMarkmapに表示させる
+ * Markdownの本文（パラグラフ）を見出しに結合して "Heading: Body" の形式にする
  */
 function processMarkdown(markdown) {
   const lines = markdown.split('\n');
   let newLines = [];
   let inCodeBlock = false;
+  let lastHeaderIndex = -1;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -22,7 +23,9 @@ function processMarkdown(markdown) {
     // コードブロックの判定
     if (trimmed.startsWith('```')) {
       inCodeBlock = !inCodeBlock;
+      // コードブロックは見出しには結合せず、そのまま出す
       newLines.push(line);
+      lastHeaderIndex = -1;
       continue;
     }
 
@@ -31,21 +34,35 @@ function processMarkdown(markdown) {
       continue;
     }
 
-    // 空行はそのまま
+    // 空行は無視
     if (trimmed === '') {
       newLines.push(line);
       continue;
     }
 
-    // ヘッダー、リストアイテム、引用などはそのまま
-    if (trimmed.startsWith('#') || trimmed.startsWith('- ') || trimmed.startsWith('* ') || trimmed.startsWith('>')) {
+    // ヘッダーの場合
+    if (trimmed.startsWith('#')) {
       newLines.push(line);
+      lastHeaderIndex = newLines.length - 1;
       continue;
     }
 
-    // それ以外（本文パラグラフ）はリストアイテムに変換
-    // スタイルを適用するためにspanで囲む
-    newLines.push(`- <span class="markmap-body-text" style="font-weight:normal; font-size:0.9em; color:#555;">${line}</span>`);
+    // リストアイテム、引用などは独立させる
+    if (trimmed.startsWith('- ') || trimmed.startsWith('* ') || trimmed.startsWith('>') || /^\d+\. /.test(trimmed)) {
+      newLines.push(line);
+      lastHeaderIndex = -1;
+      continue;
+    }
+
+    // それ以外（本文パラグラフ）
+    if (lastHeaderIndex !== -1) {
+      // 直前の見出しに結合する
+      const currentHeader = newLines[lastHeaderIndex];
+      newLines[lastHeaderIndex] = `${currentHeader}<br/><span class="markmap-body-text" style="font-weight:normal; font-size:0.9em; color:#ddd;">${trimmed}</span>`;
+    } else {
+      // 見出しがない状態での本文
+      newLines.push(`- <span class="markmap-body-text" style="font-weight:normal; font-size:0.9em; color:#ddd;">${trimmed}</span>`);
+    }
   }
 
   return newLines.join('\n');
@@ -74,7 +91,6 @@ function renderMarkmaps() {
     // コンテナの準備
     const container = document.createElement('div');
     // 高さを指定。プレビューでスクロールできるように大きめに設定
-    // 高さを指定。プレビューでスクロールできるように大きめに設定
     container.style.height = '400px';
     container.style.position = 'relative'; // ツールバーの位置調整のために追加
 
@@ -87,13 +103,23 @@ function renderMarkmaps() {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.style.width = '100%'; // SVGも全幅に
 
+    // SVG内のテキスト色を明るくするスタイルを追加
+    const style = document.createElement('style');
+    style.textContent = `
+      .markmap-node text {
+        fill: #ffffff !important;
+      }
+      .markmap-body-text {
+        fill: #cccccc !important;
+      }
+    `;
+    svg.append(style);
+
     const toolbar = document.createElement('div');
     // ツールバーの位置調整
     toolbar.style.position = 'absolute';
     toolbar.style.right = '20px'; // 画面端から少し余裕を持たせる
     toolbar.style.bottom = '20px'; // 下部に配置変更（お好みで。上だと既存ツールバーと被るかも？）
-    // markmap-toolbarはデフォルトで右下にでる？ いや、前回右上に自分で配置してた。
-    // 今回は右上に統一するが、カスタムボタンもそこに入れる。
     toolbar.style.top = '20px';
     toolbar.style.bottom = 'auto';
     toolbar.style.padding = '0';
@@ -123,23 +149,23 @@ function renderMarkmaps() {
     };
     toolbar.appendChild(resetButton);
 
-    // 初回レンダリング後に高さを調整
-    // requestAnimationFrameを使って描画完了を待つ（念のため）
-    requestAnimationFrame(() => {
-        mm.fit().then(() => {
-            const state = mm.state;
-            if (state && state.minY !== undefined && state.maxY !== undefined) {
-                const naturalHeight = state.maxY - state.minY;
-                // 余白を少し追加 (paddingY * 2 程度 + ツールバー分)
-                const newHeight = naturalHeight + 40 + 20;
-                // 最小の高さは維持 (400px)
+    // 初回レンダリング後に高さを調整 (BBox使用)
+    requestAnimationFrame(async () => {
+        await mm.fit();
+        // 描画完了を少し待つ必要があるかも
+        // mm.g は d3 selection
+        const gElement = mm.g.node();
+        if (gElement) {
+            const bbox = gElement.getBBox();
+            if (bbox && bbox.height) {
+                // 上下の余白 + ツールバー分
+                const newHeight = bbox.height + 60;
                 if (newHeight > 400) {
                      container.style.height = `${newHeight}px`;
-                     // 高さを変えたので再度fitさせる
-                     mm.fit();
+                     await mm.fit();
                 }
             }
-        });
+        }
     });
   });
 }
