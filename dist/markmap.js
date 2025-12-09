@@ -38124,14 +38124,6 @@ ${end2.comment}` : end2.comment;
       }
       preElement.dataset.markmapRendered = "true";
       const rawMarkdown = el.textContent;
-      let config3 = {};
-      try {
-        if (el.dataset.markmapConfig) {
-          config3 = JSON.parse(el.dataset.markmapConfig);
-        }
-      } catch (e) {
-        console.error("Failed to parse markmap config", e);
-      }
       const markdown = processMarkdown(rawMarkdown);
       const { root: root3 } = transformer.transform(markdown);
       const container = document.createElement("div");
@@ -38143,12 +38135,6 @@ ${end2.comment}` : end2.comment;
       container.style.border = "1px solid #666";
       container.style.boxSizing = "border-box";
       container.style.borderRadius = "4px";
-      if (config3.textColor) container.style.setProperty("--markmap-text-color", config3.textColor);
-      if (config3.headingColor) container.style.setProperty("--markmap-circle-fill", config3.headingColor);
-      if (config3.circleColor) container.style.setProperty("--markmap-circle-stroke", config3.circleColor);
-      if (config3.lineColor) container.style.setProperty("--markmap-line-color", config3.lineColor);
-      if (config3.highlightColor) container.style.setProperty("--markmap-highlight-color", config3.highlightColor);
-      if (config3.linkColor) container.style.setProperty("--markmap-link-color", config3.linkColor);
       const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       svg.style.width = "100%";
       svg.style.display = "block";
@@ -38174,7 +38160,7 @@ ${end2.comment}` : end2.comment;
         color: var(--markmap-link-color, #46d2e8);
       }
       .markmap-link {
-        stroke: var(--markmap-line-color, #ff0080);
+        /* stroke: var(--markmap-line-color, #ff0080); */
       }
       .markmap-body-text {
         font-weight: normal;
@@ -38189,12 +38175,23 @@ ${end2.comment}` : end2.comment;
       .markmap-node foreignObject i {
         color: var(--markmap-highlight-color, #FF14E0) !important;
       }
+      /* \u66F4\u65B0\u30A2\u30CB\u30E1\u30FC\u30B7\u30E7\u30F3\u306E\u5B9A\u7FA9 */
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      /* \u30A2\u30CB\u30E1\u30FC\u30B7\u30E7\u30F3\u3092\u9069\u7528\u3059\u308B\u30AF\u30E9\u30B9 */
+      .markmap-spin {
+        animation: spin 0.8s linear infinite;
+      }
     `;
       svg.append(style);
       const toolbar = document.createElement("div");
       toolbar.style.position = "absolute";
       toolbar.style.right = "20px";
-      toolbar.style.top = "20px";
+      toolbar.style.top = "auto";
+      toolbar.style.bottom = "20px";
       toolbar.style.padding = "0";
       toolbar.style.display = "flex";
       toolbar.style.gap = "8px";
@@ -38208,6 +38205,7 @@ ${end2.comment}` : end2.comment;
       }, root3);
       Toolbar.create(mm, toolbar);
       const updateLayout = async () => {
+        refreshButton.classList.add("markmap-spin");
         await mm.fit();
         const { y2 } = mm.state.rect;
         let calculatedHeight = y2 * 1.5 + 300;
@@ -38220,9 +38218,10 @@ ${end2.comment}` : end2.comment;
           container.style.height = `${calculatedHeight}px`;
         }
         await mm.fit();
+        refreshButton.classList.remove("markmap-spin");
       };
       const refreshButton = document.createElement("button");
-      refreshButton.textContent = "\u21BB";
+      refreshButton.textContent = "\u27F2";
       refreshButton.type = "button";
       refreshButton.title = "Refresh Layout";
       refreshButton.style.zIndex = "999";
@@ -38237,7 +38236,7 @@ ${end2.comment}` : end2.comment;
       refreshButton.style.display = "flex";
       refreshButton.style.alignItems = "center";
       refreshButton.style.justifyContent = "center";
-      refreshButton.style.position = "absolute";
+      refreshButton.style.position = "fixed";
       refreshButton.style.bottom = "10px";
       refreshButton.style.right = "10px";
       refreshButton.onclick = (e) => {

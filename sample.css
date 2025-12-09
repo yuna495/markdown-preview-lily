@@ -1,4 +1,229 @@
 /*//////////////////////////////////////////////*/
+/* base */
+/*//////////////////////////////////////////////*/
+
+body {
+  background-color: #000000;
+  color: #fd9bcc !important;
+  font-size: 21px;
+  font-family: "Fira Code", "ほのか新明朝", "Firple", monospace;
+}
+
+
+em,
+strong {
+  color: #FF14E0 !important;
+}
+
+/*//////////////////////////////////////////////*/
+/* title */
+/*//////////////////////////////////////////////*/
+
+h1 {
+  color: #11ff84 !important;
+  font-size: 36px;
+  font-weight: bold;
+
+  padding: 20px 0 20px 10px;         /* 20px 0 + padding-left:10px を統合 */
+  border-left: 15px solid #715c6f !important;
+  border-bottom: 7.5px solid #FF14E0 !important;
+  border-radius: 5px;
+}
+h2 {
+  color: #11ff84 !important;
+  font-size: 28px;
+  font-weight: bold;
+
+  margin: 40px 0 10px;
+  padding: 10px 15px 10px 10px;      /* 10px 15px + padding-left:10px を統合 */
+  border-left: 10px solid #FF14E0 !important;
+  border-bottom: 5px solid #FF14E0 !important;
+  border-radius: 5px;
+}
+h3 {
+  color: #11ff84 !important;
+  font-size: 24px;
+  font-weight: bold;
+
+  margin: 40px 0 10px;
+  padding-left: 15px;
+  border-left: 7.5px solid #FF14E0 !important;
+  border-bottom: 3px solid #FF14E0;
+  border-radius: 5px;
+}
+h4 {
+  color: #11ff84 !important;
+  font-size: 22px;
+  font-weight: bold;
+
+  margin: 40px 0 10px;
+  padding: 0 0 0 10px;
+  border-left: 5px solid #FF14E0 !important;
+}
+h5 {
+  color: #11ff84 !important;
+  font-size: 22px;
+  font-weight: bold;
+
+  margin: 40px 0 10px;
+  padding: 0 0 0 10px;
+  border-left: 3px solid #FF14E0 !important;
+}
+h6 {
+  color: #11ff84 !important;
+  font-size: 22px;
+  font-weight: bold;
+
+  margin: 40px 0 10px;
+  padding: 0 0 0 10px;
+  border-left: 0.5px solid #FF14E0 !important;
+}
+
+/*//////////////////////////////////////////////*/
+/* list */
+/*//////////////////////////////////////////////*/
+
+ul,
+ol {
+  padding: 0 0 0em 1.5em;
+}
+/* ordered list base */
+ol {
+  counter-reset: li;
+}
+/* list items (ul / ol 共通) */
+ul > li,
+ol > li {
+  position: relative;
+  list-style: none;
+  margin: 5px 0;
+}
+/* bullets: level 1 */
+ul > li::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0.8em;
+  left: -0.8em;
+  width: 6px;
+  height: 6px;
+  background-color: #FF14E0;
+  border-radius: 100%;
+}
+/* bullets: level 2 */
+ul ul li::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0.8em;
+  left: -0.8em;
+  width: 6px;
+  height: 3px;
+  background-color: #FF14E0;
+}
+/* bullets: level 3 */
+ul ul ul li::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0.8em;
+  left: -0.8em;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid #FF14E0;
+  border-bottom: 2px solid #FF14E0;
+  background-color: inherit;
+  border-radius: 0;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+/* bullets: arrow style */
+ul.arrow > li::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0.7em;
+  left: -1em;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid #FF14E0;
+  border-bottom: 2px solid #FF14E0;
+  background-color: inherit;
+  border-radius: 0;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+/* bullets: check style */
+ul.check > li::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0.5em;
+  left: -1em;
+  width: 8px;
+  height: 3px;
+  border-left: 2px solid #FF14E0;
+  border-bottom: 2px solid #FF14E0;
+  background-color: inherit;
+  border-radius: 0;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+/* ordered list numbers */
+ol > li {
+  counter-increment: li;
+}
+ol > li::before {
+  content: counter(li);
+  display: block;
+  position: absolute;
+  top: 0.5em;
+  left: -1.1em;
+  color: #FF14E0;
+  font-size: 22px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+/*//////////////////////////////////////////////*/
+/* table */
+/*//////////////////////////////////////////////*/
+
+table {
+  display: inline-table;
+  border-collapse: collapse;
+  border: 1px solid #11ff84 !important;
+  line-height: 1.2;
+  margin: 10px 0;
+  width: auto !important;
+  max-width: 100%;
+}
+table th {
+  padding: 10px;
+  font-weight: bold;
+  vertical-align: top;
+  text-align: center;
+  background: #171b19;
+  border: 1px solid #11ff84 !important;
+}
+table td {
+  padding: 10px;
+  vertical-align: top;
+  text-align: center;
+  border: 1px solid #11ff84 !important;
+}
+
+/*//////////////////////////////////////////////*/
+/* box */
+/*//////////////////////////////////////////////*/
+
+/* task-list 用：疑似のポチを完全に無効化 */
+ul.task-list > li::after,
+li.task-list-item::after {
+  content: none !important;
+}
+
+/*//////////////////////////////////////////////*/
 /* mermaid and other diagrams */
 /*//////////////////////////////////////////////*/
 
@@ -33,8 +258,9 @@
   --markmap-link-color: #46d2e8;
   /* 線の色（ノードをつなぐ線）/ Connection Line Color */
   --markmap-line-color: #ff0080;
+  --markmap-line-width: 4px;
 
-  --markmap-font-family: "Fira Code", monospace;
+  --markmap-font-family: "Fira Code", "Shippori Mincho", monospace;
 }
 
 /*
@@ -70,7 +296,7 @@
 .mermaid .nodeLabel foreignObject div,
 .mermaid .label foreignObject div,
 .mermaid span.nodeLabel {
-    color: var(--mermaid-text-color) !important;
+  color: var(--mermaid-text-color) !important;
 }
 
 
@@ -89,8 +315,8 @@
 }
 /* V10 often puts markers in defs, coloring the path is key, but marker-end needs color too */
 .mermaid marker path {
-    fill: var(--mermaid-arrow-color) !important;
-    stroke: var(--mermaid-arrow-color) !important;
+  fill: var(--mermaid-arrow-color) !important;
+  stroke: var(--mermaid-arrow-color) !important;
 }
 
 /* Edge Labels (Text on lines) */
@@ -114,12 +340,12 @@
 }
 .mermaid text.actor > tspan,
 .mermaid tspan {
-    fill: var(--mermaid-text-color) !important;
+  fill: var(--mermaid-text-color) !important;
 }
 
 /* Lines */
 .mermaid line {
-    stroke: var(--mermaid-line-color) !important;
+  stroke: var(--mermaid-line-color) !important;
 }
 
 /* Message Text */
@@ -183,7 +409,7 @@
   stroke: var(--mermaid-border-color) !important;
 }
 .mermaid .stateGroup text {
-    fill: var(--mermaid-text-color) !important;
+  fill: var(--mermaid-text-color) !important;
 }
 
 /*
@@ -192,8 +418,8 @@
   ========================================
 */
 .mermaid .entityBox {
-    fill: var(--mermaid-primary-color) !important;
-    stroke: var(--mermaid-border-color) !important;
+  fill: var(--mermaid-primary-color) !important;
+  stroke: var(--mermaid-border-color) !important;
 }
 
 /*//////////////////////////////////////////////*/
@@ -207,13 +433,16 @@
 
 /* Node lines and circles */
 .markmap-node {
+  /* color: HTMLテキストの色 (継承用) / Affects HTML text color via inheritance */
   color: var(--markmap-text-color) !important;
+  /* fill: SVG図形(丸など)の塗りつぶし色 / Affects SVG shapes (circles) */
   fill: var(--markmap-circle-fill) !important;
 }
 
 /* Lines (Edges) */
-.markmap-link {
-  stroke: var(--markmap-line-color) !important;
+.markmap-link,
+.markmap svg > g > path {
+  /* stroke: var(--markmap-line-color) !important; <--- Disabled to allow rainbow branch colors */
   stroke-width: 2px !important;
   stroke-opacity: 1 !important;
   fill: none !important;
@@ -225,24 +454,16 @@
 }
 
 /* ForeignObject (Rich text container) */
-/*
-   STRATEGY CHANGE:
-   Markmap renders nodes as plain text (Headings/Lists).
-   Our custom script wraps "Body" in .markmap-body-text.
-
-   Therefore:
-   1. Base Color (foreignObject) = GREEN (Headings/Lists default)
-   2. Body Class (.markmap-body-text) = PINK (Exception)
-*/
 .markmap-node foreignObject {
-  color: var(--markmap-circle-fill) !important; /* Green */
+  /* Base Color = GREEN (Headings/Lists default) */
+  color: var(--markmap-circle-fill) !important;
   font-family: var(--markmap-font-family) !important;
   line-height: 1.2;
 }
 
-/* Force inheritance to kill browser defaults on divs/spans */
+/* Force inheritance to kill browser defaults */
 .markmap-node foreignObject * {
-    color: inherit !important;
+  color: inherit !important;
 }
 
 /* Body Text (Custom span) -> Override to Pink */
@@ -253,13 +474,12 @@
   display: inline-block;
 }
 
-/* Bold/Strong/Em -> Dark Pink (Global Accent) */
+/* Bold/Strong/Em -> Dark Pink */
 .markmap-node foreignObject strong,
 .markmap-node foreignObject em,
 .markmap-node foreignObject b,
 .markmap-node foreignObject i {
-    color: #FF14E0 !important;
-    font-weight: bold !important;
+  color: #FF14E0 !important;
 }
 
 /* Links inside nodes */

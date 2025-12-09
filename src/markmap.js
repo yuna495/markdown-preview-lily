@@ -123,7 +123,7 @@ function renderMarkmaps() {
         color: var(--markmap-link-color, #46d2e8);
       }
       .markmap-link {
-        stroke: var(--markmap-line-color, #ff0080);
+        /* stroke: var(--markmap-line-color, #ff0080); */
       }
       .markmap-body-text {
         font-weight: normal;
