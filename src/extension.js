@@ -1,7 +1,13 @@
 // The module 'vscode' contains the VS Code extensibility API
 const vscode = require('vscode');
 
-console.log('[MPP Main] Loading extension.js');
+// Global Output Channel
+const outputChannel = vscode.window.createOutputChannel("Markdown Preview Plus");
+outputChannel.show(true); // Force visibility
+console.log = (msg) => outputChannel.appendLine(`[Log] ${msg}`);
+console.error = (msg) => outputChannel.appendLine(`[Error] ${msg}`);
+
+outputChannel.appendLine('[MPP Main] Loading extension.js');
 
 let markmapPlugin;
 let mermaidThemePlugin;
@@ -9,11 +15,11 @@ let mermaidThemePlugin;
 try {
     // 作成予定のMarkmapプラグインをインポートします
     markmapPlugin = require('./markmap-it-plugin');
-    console.log('[MPP Main] Loaded markmap plugin');
+    outputChannel.appendLine('[MPP Main] Loaded markmap plugin');
     mermaidThemePlugin = require('./mermaid-theme-plugin');
-    console.log('[MPP Main] Loaded mermaid theme plugin');
+    outputChannel.appendLine('[MPP Main] Loaded mermaid theme plugin');
 } catch (e) {
-    console.error('[MPP Main] Failed to load plugins:', e);
+    outputChannel.appendLine(`[MPP Main] Failed to load plugins: ${e}`);
 }
 
 /**
@@ -21,6 +27,20 @@ try {
  */
 function activate(context) {
 	console.log('[MPP Main] Markdown Preview Plus is now active!');
+
+    // Test Command
+    const disposable = vscode.commands.registerCommand('markdown-preview-plus.test', () => {
+        vscode.window.showInformationMessage('Markdown Preview Plus is Active!');
+        console.log('[MPP Main] Test command executed.');
+    });
+
+    context.subscriptions.push(disposable);
+
+    return {
+        extendMarkdownIt(md) {
+            return extendMarkdownIt(md);
+        }
+    };
 }
 
 // この関数をエクスポートすることで、VS CodeのMarkdown拡張機能が

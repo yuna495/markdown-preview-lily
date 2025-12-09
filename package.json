@@ -14,7 +14,12 @@
   ],
   "main": "./src/extension.js",
   "contributes": {
-    "commands": [],
+    "commands": [
+        {
+            "command": "markdown-preview-plus.test",
+            "title": "Markdown Preview Plus: Test Activation"
+        }
+    ],
     "markdown.previewScripts": [
       "./dist/markmap.js",
       "./dist/mermaid.js",

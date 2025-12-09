@@ -2,7 +2,6 @@ import mermaid from 'mermaid';
 import { select } from 'd3-selection';
 import { createToolbar, createToolbarButton, applyContainerStyles, setupD3Zoom, preventEventPropagation } from './utils.js';
 
-// Basic initialization. Theme is overridden by per-diagram directives.
 mermaid.initialize({
   startOnLoad: false,
   securityLevel: 'loose',
@@ -13,40 +12,83 @@ mermaid.initialize({
 });
 
 const renderMermaid = async () => {
-  const blocks = document.querySelectorAll('pre code.language-mermaid');
+  // Helper to extract theme from class list
+  const extractTheme = (element) => {
+      if (!element) return null;
+      for (const cls of element.classList) {
+          if (cls.startsWith('theme-')) {
+              return cls.replace('theme-', '');
+          }
+      }
+      return null;
+  };
 
-  for (const block of blocks) {
-    const pre = block.parentElement;
-    if (pre.dataset.mermaidRendered) continue;
-    pre.dataset.mermaidRendered = 'true';
+  // 1. Get Global Config (Class-based)
+  const configDiv = document.getElementById('mpp-config');
+  const globalTheme = extractTheme(configDiv) || 'pinklily';
 
-    // Check if code block has the theme class (injected by token.info)
-    const hasPinkLilyClass = block.classList.contains('mpp-theme-pinklily') || block.className.includes('mpp-theme-pinklily');
+  if (configDiv) {
+      console.log(`[MPP Render] Found global config (class-based). Theme: ${globalTheme}`);
+  } else {
+      console.log('[MPP Render] No global config found. Defaulting to pinklily.');
+  }
 
-    // EMERGENCY FALLBACK: If backend plugin didn't run (no class), default to PinkLily styling
-    // This ensures the custom theme is applied even if extension activation failed.
-    const shouldApplyPinkLily = hasPinkLilyClass || true;
+  const wrappers = document.querySelectorAll('.mpp-mermaid-wrapper');
+  const nakedBlocks = document.querySelectorAll('pre code.language-mermaid');
 
+  // Process wrappers
+  for (const wrapper of wrappers) {
+     if (wrapper.dataset.mermaidRendered) continue;
+     wrapper.dataset.mermaidRendered = 'true';
+
+     const theme = extractTheme(wrapper) || globalTheme;
+     const block = wrapper.querySelector('code');
+     if (!block) continue;
+
+     await processBlock(block, theme, wrapper);
+  }
+
+  // Process naked blocks (Fallback)
+  for (const block of nakedBlocks) {
+      const pre = block.parentElement;
+      if (pre.closest('.mpp-mermaid-wrapper')) continue;
+
+      if (pre.dataset.mermaidRendered) continue;
+      pre.dataset.mermaidRendered = 'true';
+
+      await processBlock(block, globalTheme, pre);
+  }
+};
+
+async function processBlock(block, themeStr, replaceTarget) {
     const id = `mermaid-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-
     let raw = block.textContent.trim();
+
+    // Construct Directive based on themeStr
+    const isPinkLily = (themeStr === 'pinklily');
+    const internalTheme = isPinkLily ? 'base' : themeStr;
+    const directive = `%%{init: { "theme": "${internalTheme}", "gantt": { "todayMarker": false } } }%%\n`;
+
+    if (!raw.includes('%%{init:')) {
+        raw = directive + raw;
+        // console.log(`[MPP Render] Injected directive for theme: ${themeStr}`);
+    }
+
     console.log('[MPP Render] Processing block:', id);
-    console.log('[MPP Render] Raw content:', raw);
 
     const container = document.createElement('div');
     container.classList.add('mermaid-container');
     container.classList.add('mermaid');
 
-    if (shouldApplyPinkLily) {
+    if (isPinkLily) {
         container.classList.add('mpp-theme-pinklily');
     }
 
     applyContainerStyles(container);
-
     container.style.position = 'relative';
     container.style.height = '600px';
 
-    pre.replaceWith(container);
+    replaceTarget.replaceWith(container);
 
     try {
       if (await mermaid.parse(raw)) {
@@ -78,7 +120,6 @@ const renderMermaid = async () => {
           const d3Svg = select(svgEl);
           const d3G = select(g);
 
-          // Use Shared Zoom Logic
           const bBox = g.getBBox();
           const { zoomBehavior, initialTransform } = setupD3Zoom(d3Svg, d3G, container, bBox);
 
@@ -88,7 +129,6 @@ const renderMermaid = async () => {
           }, 'Reset Zoom');
           toolbar.appendChild(btnReset);
 
-          // Use Shared Event Blocking
           preventEventPropagation(container);
         }
       }
@@ -96,8 +136,7 @@ const renderMermaid = async () => {
       console.error(err);
       container.innerHTML = `<pre style="color:red;padding:10px;">${err.message}</pre>`;
     }
-  }
-};
+}
 
 renderMermaid();
 const observer = new MutationObserver(renderMermaid);
