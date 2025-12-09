@@ -138,6 +138,16 @@ function renderMarkmaps() {
       .markmap-node foreignObject i {
         color: var(--markmap-highlight-color, #FF14E0) !important;
       }
+      /* 更新アニメーションの定義 */
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      /* アニメーションを適用するクラス */
+      .markmap-spin {
+        animation: spin 0.8s linear infinite;
+      }
     `;
     svg.append(style);
 
@@ -163,6 +173,7 @@ function renderMarkmaps() {
     Toolbar.create(mm, toolbar);
 
     const updateLayout = async () => {
+        refreshButton.classList.add('markmap-spin');
         await mm.fit();
         const { y2 } = mm.state.rect;
 
@@ -178,6 +189,7 @@ function renderMarkmaps() {
             container.style.height = `${calculatedHeight}px`;
         }
         await mm.fit();
+        refreshButton.classList.remove('markmap-spin');
     };
 
     // 更新ボタン (右下に配置)

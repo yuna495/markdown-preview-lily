@@ -20,13 +20,20 @@
 
   --mermaid-font-family: "Fira Code", "Shippori Mincho", monospace;
 
-  /* Markmap Colors */
+  /* Markmap Colors - Edit these to change the theme! */
+  /* 基本のテキスト色（見出し、リスト、ノードの文字）/ Base Text (Headings, Nodes) */
   --markmap-circle-fill: #11ff84;
+  /* ノードの円枠の色 / Node Circle Border */
   --markmap-circle-stroke: #11ff84;
-  --markmap-text-color: #fd9bcc; /* Sync with mermaid text */
-  --markmap-link-color: #46d2e8; /* Cyan links */
-  --markmap-line-color: #ff0080;
+  /* 本文の色（長い文章など）/ Body Text */
   --markmap-body-text-color: #fd9bcc;
+  /* ピンクのテキスト（汎用）/ General Pink Text */
+  --markmap-text-color: #fd9bcc;
+  /* リンクの色 / Link Color */
+  --markmap-link-color: #46d2e8;
+  /* 線の色（ノードをつなぐ線）/ Connection Line Color */
+  --markmap-line-color: #ff0080;
+
   --markmap-font-family: "Fira Code", monospace;
 }
 
