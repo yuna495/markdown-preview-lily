@@ -7,6 +7,71 @@ import { createToolbar, createToolbarButton, applyContainerStyles, preventEventP
 
 
 
+
+// Inject Markmap Styles
+const style = document.createElement('style');
+style.textContent = `
+:root {
+  --markmap-circle-fill: #11ff84;
+  --markmap-circle-stroke: #11ff84;
+  --markmap-body-text-color: #fd9bcc;
+  --markmap-text-color: #fd9bcc;
+  --markmap-link-color: #46d2e8;
+  --markmap-line-color: #ff0080;
+  --markmap-line-width: 4px;
+  --markmap-font-family: "Fira Code", "Shippori Mincho", monospace;
+}
+
+.markmap-node {
+  color: var(--markmap-text-color) !important;
+  fill: var(--markmap-circle-fill) !important;
+}
+
+.markmap-link,
+.markmap svg > g > path {
+  stroke-opacity: 1 !important;
+  fill: none !important;
+}
+
+.markmap-node text {
+  fill: var(--markmap-text-color) !important;
+}
+
+.markmap-node foreignObject {
+  color: var(--markmap-circle-fill) !important;
+  font-family: var(--markmap-font-family) !important;
+  line-height: 1.2;
+}
+
+.markmap-node foreignObject .markmap-body-text {
+  font-weight: normal;
+  font-size: 0.9em;
+  color: var(--markmap-body-text-color) !important;
+  display: inline-block;
+}
+
+.markmap-node foreignObject strong,
+.markmap-node foreignObject em,
+.markmap-node foreignObject b,
+.markmap-node foreignObject i {
+  color: #FF14E0 !important;
+}
+
+.markmap-node a {
+  color: var(--markmap-link-color) !important;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.markmap-spin {
+  animation: spin 0.8s linear infinite;
+}
+`;
+document.head.appendChild(style);
+
 // Transformerのインスタンスを1つ作成し、再利用
 const transformer = new Transformer();
 

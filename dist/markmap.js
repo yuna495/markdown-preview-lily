@@ -3055,8 +3055,8 @@
               2.074,
               2.488
             ];
-            const sizeAtStyle = function(size, style) {
-              return style.size < 2 ? size : sizeStyleMap[size - 1][style.size - 1];
+            const sizeAtStyle = function(size, style2) {
+              return style2.size < 2 ? size : sizeStyleMap[size - 1][style2.size - 1];
             };
             class Options {
               // A font family applies to a group of fonts (i.e. SansSerif), while a font
@@ -3122,13 +3122,13 @@
                * Return an options object with the given style. If `this.style === style`,
                * returns `this`.
                */
-              havingStyle(style) {
-                if (this.style === style) {
+              havingStyle(style2) {
+                if (this.style === style2) {
                   return this;
                 } else {
                   return this.extend({
-                    style,
-                    size: sizeAtStyle(this.textSize, style)
+                    style: style2,
+                    size: sizeAtStyle(this.textSize, style2)
                   });
                 }
               }
@@ -3159,14 +3159,14 @@
                * Like `this.havingSize(BASESIZE).havingStyle(style)`. If `style` is omitted,
                * changes to at least `\textstyle`.
                */
-              havingBaseStyle(style) {
-                style = style || this.style.text();
-                const wantSize = sizeAtStyle(Options.BASESIZE, style);
-                if (this.size === wantSize && this.textSize === Options.BASESIZE && this.style === style) {
+              havingBaseStyle(style2) {
+                style2 = style2 || this.style.text();
+                const wantSize = sizeAtStyle(Options.BASESIZE, style2);
+                if (this.size === wantSize && this.textSize === Options.BASESIZE && this.style === style2) {
                   return this;
                 } else {
                   return this.extend({
-                    style,
+                    style: style2,
                     size: wantSize
                   });
                 }
@@ -3364,13 +3364,13 @@
             const createClass = function(classes) {
               return classes.filter((cls) => cls).join(" ");
             };
-            const initNode = function(classes, options, style) {
+            const initNode = function(classes, options, style2) {
               this.classes = classes || [];
               this.attributes = {};
               this.height = 0;
               this.depth = 0;
               this.maxFontSize = 0;
-              this.style = style || {};
+              this.style = style2 || {};
               if (options) {
                 if (options.style.isTight()) {
                   this.classes.push("mtight");
@@ -3384,9 +3384,9 @@
             const toNode = function(tagName) {
               const node = document.createElement(tagName);
               node.className = createClass(this.classes);
-              for (const style in this.style) {
-                if (this.style.hasOwnProperty(style)) {
-                  node.style[style] = this.style[style];
+              for (const style2 in this.style) {
+                if (this.style.hasOwnProperty(style2)) {
+                  node.style[style2] = this.style[style2];
                 }
               }
               for (const attr2 in this.attributes) {
@@ -3406,9 +3406,9 @@
                 markup += ' class="' + utils.escape(createClass(this.classes)) + '"';
               }
               let styles3 = "";
-              for (const style in this.style) {
-                if (this.style.hasOwnProperty(style)) {
-                  styles3 += utils.hyphenate(style) + ":" + this.style[style] + ";";
+              for (const style2 in this.style) {
+                if (this.style.hasOwnProperty(style2)) {
+                  styles3 += utils.hyphenate(style2) + ":" + this.style[style2] + ";";
                 }
               }
               if (styles3) {
@@ -3430,7 +3430,7 @@
               return markup;
             };
             class Span {
-              constructor(classes, children3, options, style) {
+              constructor(classes, children3, options, style2) {
                 this.children = void 0;
                 this.attributes = void 0;
                 this.classes = void 0;
@@ -3439,7 +3439,7 @@
                 this.width = void 0;
                 this.maxFontSize = void 0;
                 this.style = void 0;
-                initNode.call(this, classes, options, style);
+                initNode.call(this, classes, options, style2);
                 this.children = children3 || [];
               }
               /**
@@ -3487,7 +3487,7 @@
               }
             }
             class Img {
-              constructor(src, alt, style) {
+              constructor(src, alt, style2) {
                 this.src = void 0;
                 this.alt = void 0;
                 this.classes = void 0;
@@ -3498,7 +3498,7 @@
                 this.alt = alt;
                 this.src = src;
                 this.classes = ["mord"];
-                this.style = style;
+                this.style = style2;
               }
               hasClass(className) {
                 return this.classes.includes(className);
@@ -3508,9 +3508,9 @@
                 node.src = this.src;
                 node.alt = this.alt;
                 node.className = "mord";
-                for (const style in this.style) {
-                  if (this.style.hasOwnProperty(style)) {
-                    node.style[style] = this.style[style];
+                for (const style2 in this.style) {
+                  if (this.style.hasOwnProperty(style2)) {
+                    node.style[style2] = this.style[style2];
                   }
                 }
                 return node;
@@ -3518,9 +3518,9 @@
               toMarkup() {
                 let markup = '<img src="' + utils.escape(this.src) + '"' + (' alt="' + utils.escape(this.alt) + '"');
                 let styles3 = "";
-                for (const style in this.style) {
-                  if (this.style.hasOwnProperty(style)) {
-                    styles3 += utils.hyphenate(style) + ":" + this.style[style] + ";";
+                for (const style2 in this.style) {
+                  if (this.style.hasOwnProperty(style2)) {
+                    styles3 += utils.hyphenate(style2) + ":" + this.style[style2] + ";";
                   }
                 }
                 if (styles3) {
@@ -3538,7 +3538,7 @@
               "\xEC": "\u0131\u0300"
             };
             class SymbolNode {
-              constructor(text3, height, depth, italic, skew2, width, classes, style) {
+              constructor(text3, height, depth, italic, skew2, width, classes, style2) {
                 this.text = void 0;
                 this.height = void 0;
                 this.depth = void 0;
@@ -3555,7 +3555,7 @@
                 this.skew = skew2 || 0;
                 this.width = width || 0;
                 this.classes = classes || [];
-                this.style = style || {};
+                this.style = style2 || {};
                 this.maxFontSize = 0;
                 const script = scriptFromCodepoint(this.text.charCodeAt(0));
                 if (script) {
@@ -3583,10 +3583,10 @@
                   span = span || document.createElement("span");
                   span.className = createClass(this.classes);
                 }
-                for (const style in this.style) {
-                  if (this.style.hasOwnProperty(style)) {
+                for (const style2 in this.style) {
+                  if (this.style.hasOwnProperty(style2)) {
                     span = span || document.createElement("span");
-                    span.style[style] = this.style[style];
+                    span.style[style2] = this.style[style2];
                   }
                 }
                 if (span) {
@@ -3612,9 +3612,9 @@
                 if (this.italic > 0) {
                   styles3 += "margin-right:" + this.italic + "em;";
                 }
-                for (const style in this.style) {
-                  if (this.style.hasOwnProperty(style)) {
-                    styles3 += utils.hyphenate(style) + ":" + this.style[style] + ";";
+                for (const style2 in this.style) {
+                  if (this.style.hasOwnProperty(style2)) {
+                    styles3 += utils.hyphenate(style2) + ":" + this.style[style2] + ";";
                   }
                 }
                 if (styles3) {
@@ -4732,13 +4732,13 @@
                   return false;
                 }
               }
-              for (const style in prev2.style) {
-                if (prev2.style.hasOwnProperty(style) && prev2.style[style] !== next2.style[style]) {
+              for (const style2 in prev2.style) {
+                if (prev2.style.hasOwnProperty(style2) && prev2.style[style2] !== next2.style[style2]) {
                   return false;
                 }
               }
-              for (const style in next2.style) {
-                if (next2.style.hasOwnProperty(style) && prev2.style[style] !== next2.style[style]) {
+              for (const style2 in next2.style) {
+                if (next2.style.hasOwnProperty(style2) && prev2.style[style2] !== next2.style[style2]) {
                   return false;
                 }
               }
@@ -4779,12 +4779,12 @@
               elem.depth = depth;
               elem.maxFontSize = maxFontSize;
             };
-            const makeSpan = function(classes, children3, options, style) {
-              const span = new Span(classes, children3, options, style);
+            const makeSpan = function(classes, children3, options, style2) {
+              const span = new Span(classes, children3, options, style2);
               sizeElementFromChildren(span);
               return span;
             };
-            const makeSvgSpan = (classes, children3, options, style) => new Span(classes, children3, options, style);
+            const makeSvgSpan = (classes, children3, options, style2) => new Span(classes, children3, options, style2);
             const makeLineSpan = function(className, options, thickness) {
               const line = makeSpan([className], [], options);
               line.height = Math.max(thickness || options.fontMetrics().defaultRuleThickness, options.minRuleThickness);
@@ -4884,8 +4884,8 @@
                 } else {
                   const elem = child.elem;
                   const classes = child.wrapperClasses || [];
-                  const style = child.wrapperStyle || {};
-                  const childWrap = makeSpan(classes, [pstrut, elem], void 0, style);
+                  const style2 = child.wrapperStyle || {};
+                  const childWrap = makeSpan(classes, [pstrut, elem], void 0, style2);
                   childWrap.style.top = makeEm(-pstrutSize - currPos - elem.depth);
                   if (child.marginLeft) {
                     childWrap.style.marginLeft = child.marginLeft;
@@ -6362,14 +6362,14 @@
               // Flow is unable to correctly infer the type of `group`, even though it's
               // unambiguously determined from the passed-in `type` above.
               htmlBuilder(group, options) {
-                const style = options.style;
-                let newOptions = options.havingStyle(style.sup());
+                const style2 = options.style;
+                let newOptions = options.havingStyle(style2.sup());
                 const upperGroup = buildCommon.wrapFragment(buildGroup(group.body, newOptions, options), options);
                 const arrowPrefix = group.label.slice(0, 2) === "\\x" ? "x" : "cd";
                 upperGroup.classes.push(arrowPrefix + "-arrow-pad");
                 let lowerGroup;
                 if (group.below) {
-                  newOptions = options.havingStyle(style.sub());
+                  newOptions = options.havingStyle(style2.sub());
                   lowerGroup = buildCommon.wrapFragment(buildGroup(group.below, newOptions, options), options);
                   lowerGroup.classes.push(arrowPrefix + "-arrow-pad");
                 }
@@ -6602,8 +6602,8 @@
                 node.style.textShadow = "0.02em 0.01em 0.04px";
                 return node;
               },
-              mathmlBuilder(group, style) {
-                const inner2 = buildMathML_buildExpression(group.body, style);
+              mathmlBuilder(group, style2) {
+                const inner2 = buildMathML_buildExpression(group.body, style2);
                 const node = new mathMLTree.MathNode("mstyle", inner2);
                 node.setAttribute("style", "text-shadow: 0.02em 0.01em 0.04px");
                 return node;
@@ -7202,19 +7202,19 @@
               span.maxFontSize = newOptions.sizeMultiplier;
               return span;
             };
-            const centerSpan = function(span, options, style) {
-              const newOptions = options.havingBaseStyle(style);
+            const centerSpan = function(span, options, style2) {
+              const newOptions = options.havingBaseStyle(style2);
               const shift = (1 - options.sizeMultiplier / newOptions.sizeMultiplier) * options.fontMetrics().axisHeight;
               span.classes.push("delimcenter");
               span.style.top = makeEm(shift);
               span.height -= shift;
               span.depth += shift;
             };
-            const makeSmallDelim = function(delim, style, center, options, mode, classes) {
+            const makeSmallDelim = function(delim, style2, center, options, mode, classes) {
               const text3 = buildCommon.makeSymbol(delim, "Main-Regular", mode, options);
-              const span = styleWrap(text3, style, options, classes);
+              const span = styleWrap(text3, style2, options, classes);
               if (center) {
-                centerSpan(span, options, style);
+                centerSpan(span, options, style2);
               }
               return span;
             };
@@ -8352,7 +8352,7 @@
                 return name2.indexOf("*") === -1;
               }
             }
-            function parseArray(parser, _ref, style) {
+            function parseArray(parser, _ref, style2) {
               let {
                 hskipBeforeAndAfter,
                 addJot,
@@ -8412,11 +8412,11 @@
                   mode: parser.mode,
                   body: cell
                 };
-                if (style) {
+                if (style2) {
                   cell = {
                     type: "styling",
                     mode: parser.mode,
-                    style,
+                    style: style2,
                     body: [cell]
                   };
                 }
@@ -9325,11 +9325,11 @@
                   mode
                 } = parser;
                 const body = parser.parseExpression(true, breakOnTokenText);
-                const style = "math" + funcName.slice(1);
+                const style2 = "math" + funcName.slice(1);
                 return {
                   type: "font",
                   mode,
-                  font: style,
+                  font: style2,
                   body: {
                     type: "ordgroup",
                     mode: parser.mode,
@@ -9342,22 +9342,22 @@
             });
             ;
             const adjustStyle = (size, originalStyle) => {
-              let style = originalStyle;
+              let style2 = originalStyle;
               if (size === "display") {
-                style = style.id >= src_Style.SCRIPT.id ? style.text() : src_Style.DISPLAY;
-              } else if (size === "text" && style.size === src_Style.DISPLAY.size) {
-                style = src_Style.TEXT;
+                style2 = style2.id >= src_Style.SCRIPT.id ? style2.text() : src_Style.DISPLAY;
+              } else if (size === "text" && style2.size === src_Style.DISPLAY.size) {
+                style2 = src_Style.TEXT;
               } else if (size === "script") {
-                style = src_Style.SCRIPT;
+                style2 = src_Style.SCRIPT;
               } else if (size === "scriptscript") {
-                style = src_Style.SCRIPTSCRIPT;
+                style2 = src_Style.SCRIPTSCRIPT;
               }
-              return style;
+              return style2;
             };
             const genfrac_htmlBuilder = (group, options) => {
-              const style = adjustStyle(group.size, options.style);
-              const nstyle = style.fracNum();
-              const dstyle = style.fracDen();
+              const style2 = adjustStyle(group.size, options.style);
+              const nstyle = style2.fracNum();
+              const dstyle = style2.fracDen();
               let newOptions;
               newOptions = options.havingStyle(nstyle);
               const numerm = buildGroup(group.numer, newOptions, options);
@@ -9389,7 +9389,7 @@
               let numShift;
               let clearance;
               let denomShift;
-              if (style.size === src_Style.DISPLAY.size || group.size === "display") {
+              if (style2.size === src_Style.DISPLAY.size || group.size === "display") {
                 numShift = options.fontMetrics().num1;
                 if (ruleWidth > 0) {
                   clearance = 3 * ruleSpacing;
@@ -9452,13 +9452,13 @@
                   }]
                 }, options);
               }
-              newOptions = options.havingStyle(style);
+              newOptions = options.havingStyle(style2);
               frac.height *= newOptions.sizeMultiplier / options.sizeMultiplier;
               frac.depth *= newOptions.sizeMultiplier / options.sizeMultiplier;
               let delimSize;
-              if (style.size === src_Style.DISPLAY.size) {
+              if (style2.size === src_Style.DISPLAY.size) {
                 delimSize = options.fontMetrics().delim1;
-              } else if (style.size === src_Style.SCRIPTSCRIPT.size) {
+              } else if (style2.size === src_Style.SCRIPTSCRIPT.size) {
                 delimSize = options.havingStyle(src_Style.SCRIPT).fontMetrics().delim2;
               } else {
                 delimSize = options.fontMetrics().delim2;
@@ -9468,14 +9468,14 @@
               if (group.leftDelim == null) {
                 leftDelim = makeNullDelimiter(options, ["mopen"]);
               } else {
-                leftDelim = delimiter2.customSizedDelim(group.leftDelim, delimSize, true, options.havingStyle(style), group.mode, ["mopen"]);
+                leftDelim = delimiter2.customSizedDelim(group.leftDelim, delimSize, true, options.havingStyle(style2), group.mode, ["mopen"]);
               }
               if (group.continued) {
                 rightDelim = buildCommon.makeSpan([]);
               } else if (group.rightDelim == null) {
                 rightDelim = makeNullDelimiter(options, ["mclose"]);
               } else {
-                rightDelim = delimiter2.customSizedDelim(group.rightDelim, delimSize, true, options.havingStyle(style), group.mode, ["mclose"]);
+                rightDelim = delimiter2.customSizedDelim(group.rightDelim, delimSize, true, options.havingStyle(style2), group.mode, ["mclose"]);
               }
               return buildCommon.makeSpan(["mord"].concat(newOptions.sizingClasses(options)), [leftDelim, buildCommon.makeSpan(["mfrac"], [frac]), rightDelim], options);
             };
@@ -9487,10 +9487,10 @@
                 const ruleWidth = calculateSize(group.barSize, options);
                 node.setAttribute("linethickness", makeEm(ruleWidth));
               }
-              const style = adjustStyle(group.size, options.style);
-              if (style.size !== options.style.size) {
+              const style2 = adjustStyle(group.size, options.style);
+              if (style2.size !== options.style.size) {
                 node = new mathMLTree.MathNode("mstyle", [node]);
-                const isDisplay = style.size === src_Style.DISPLAY.size ? "true" : "false";
+                const isDisplay = style2.size === src_Style.DISPLAY.size ? "true" : "false";
                 node.setAttribute("displaystyle", isDisplay);
                 node.setAttribute("scriptlevel", "0");
               }
@@ -9784,11 +9784,11 @@
             });
             ;
             const horizBrace_htmlBuilder = (grp, options) => {
-              const style = options.style;
+              const style2 = options.style;
               let supSubGroup;
               let group;
               if (grp.type === "supsub") {
-                supSubGroup = grp.sup ? buildGroup(grp.sup, options.havingStyle(style.sup()), options) : buildGroup(grp.sub, options.havingStyle(style.sub()), options);
+                supSubGroup = grp.sup ? buildGroup(grp.sup, options.havingStyle(style2.sup()), options) : buildGroup(grp.sub, options.havingStyle(style2.sub()), options);
                 group = assertNodeType(grp.base, "horizBrace");
               } else {
                 group = assertNodeType(grp, "horizBrace");
@@ -10230,16 +10230,16 @@
                 if (group.width.number > 0) {
                   width = calculateSize(group.width, options);
                 }
-                const style = {
+                const style2 = {
                   height: makeEm(height + depth)
                 };
                 if (width > 0) {
-                  style.width = makeEm(width);
+                  style2.width = makeEm(width);
                 }
                 if (depth > 0) {
-                  style.verticalAlign = makeEm(-depth);
+                  style2.verticalAlign = makeEm(-depth);
                 }
-                const node = new Img(group.src, group.alt, style);
+                const node = new Img(group.src, group.alt, style2);
                 node.height = height;
                 node.depth = depth;
                 return node;
@@ -10445,20 +10445,20 @@
               }
             });
             ;
-            const assembleSupSub = (base2, supGroup, subGroup, options, style, slant, baseShift) => {
+            const assembleSupSub = (base2, supGroup, subGroup, options, style2, slant, baseShift) => {
               base2 = buildCommon.makeSpan([], [base2]);
               const subIsSingleCharacter = subGroup && utils.isCharacterBox(subGroup);
               let sub2;
               let sup2;
               if (supGroup) {
-                const elem = buildGroup(supGroup, options.havingStyle(style.sup()), options);
+                const elem = buildGroup(supGroup, options.havingStyle(style2.sup()), options);
                 sup2 = {
                   elem,
                   kern: Math.max(options.fontMetrics().bigOpSpacing1, options.fontMetrics().bigOpSpacing3 - elem.depth)
                 };
               }
               if (subGroup) {
-                const elem = buildGroup(subGroup, options.havingStyle(style.sub()), options);
+                const elem = buildGroup(subGroup, options.havingStyle(style2.sub()), options);
                 sub2 = {
                   elem,
                   kern: Math.max(options.fontMetrics().bigOpSpacing2, options.fontMetrics().bigOpSpacing4 - elem.height)
@@ -10561,9 +10561,9 @@
               } else {
                 group = assertNodeType(grp, "op");
               }
-              const style = options.style;
+              const style2 = options.style;
               let large = false;
-              if (style.size === src_Style.DISPLAY.size && group.symbol && !noSuccessor.includes(group.name)) {
+              if (style2.size === src_Style.DISPLAY.size && group.symbol && !noSuccessor.includes(group.name)) {
                 large = true;
               }
               let base2;
@@ -10616,7 +10616,7 @@
                 slant = base2.italic;
               }
               if (hasLimits) {
-                return assembleSupSub(base2, supGroup, subGroup, options, style, slant, baseShift);
+                return assembleSupSub(base2, supGroup, subGroup, options, style2, slant, baseShift);
               } else {
                 if (baseShift) {
                   base2.style.position = "relative";
@@ -11439,13 +11439,13 @@
                   parser
                 } = _ref;
                 const body = parser.parseExpression(true, breakOnTokenText);
-                const style = funcName.slice(1, funcName.length - 5);
+                const style2 = funcName.slice(1, funcName.length - 5);
                 return {
                   type: "styling",
                   mode: parser.mode,
                   // Figure out what style to use by pulling out the style from
                   // the function name
-                  style,
+                  style: style2,
                   body
                 };
               },
@@ -38123,6 +38123,68 @@ ${end2.comment}` : end2.comment;
   }
 
   // src/markmap.js
+  var style = document.createElement("style");
+  style.textContent = `
+:root {
+  --markmap-circle-fill: #11ff84;
+  --markmap-circle-stroke: #11ff84;
+  --markmap-body-text-color: #fd9bcc;
+  --markmap-text-color: #fd9bcc;
+  --markmap-link-color: #46d2e8;
+  --markmap-line-color: #ff0080;
+  --markmap-line-width: 4px;
+  --markmap-font-family: "Fira Code", "Shippori Mincho", monospace;
+}
+
+.markmap-node {
+  color: var(--markmap-text-color) !important;
+  fill: var(--markmap-circle-fill) !important;
+}
+
+.markmap-link,
+.markmap svg > g > path {
+  stroke-opacity: 1 !important;
+  fill: none !important;
+}
+
+.markmap-node text {
+  fill: var(--markmap-text-color) !important;
+}
+
+.markmap-node foreignObject {
+  color: var(--markmap-circle-fill) !important;
+  font-family: var(--markmap-font-family) !important;
+  line-height: 1.2;
+}
+
+.markmap-node foreignObject .markmap-body-text {
+  font-weight: normal;
+  font-size: 0.9em;
+  color: var(--markmap-body-text-color) !important;
+  display: inline-block;
+}
+
+.markmap-node foreignObject strong,
+.markmap-node foreignObject em,
+.markmap-node foreignObject b,
+.markmap-node foreignObject i {
+  color: #FF14E0 !important;
+}
+
+.markmap-node a {
+  color: var(--markmap-link-color) !important;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.markmap-spin {
+  animation: spin 0.8s linear infinite;
+}
+`;
+  document.head.appendChild(style);
   var transformer = new Transformer();
   function processMarkdown(markdown) {
     const lines = markdown.split("\n");

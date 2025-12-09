@@ -1,7 +1,7 @@
 {
   "name": "markdown-preview-plus",
   "displayName": "Markdown Preview Plus",
-  "description": "Show markmap in markdown preview",
+  "description": "Show markmap, mermaid, graphviz in markdown preview",
   "version": "1.0.0",
   "engines": {
     "vscode": "^1.85.0"
@@ -24,7 +24,26 @@
       "./dist/markmap-toolbar.css",
       "./dist/style.css"
     ],
-    "markdown.markdownItPlugins": true
+    "markdown.markdownItPlugins": true,
+    "configuration": {
+      "type": "object",
+      "title": "Markdown Preview Plus",
+      "properties": {
+        "markdown-preview-plus.mermaidTheme": {
+          "type": "string",
+          "default": "pinklily",
+          "enum": [
+            "pinklily",
+            "default",
+            "neutral",
+            "dark",
+            "forest",
+            "base"
+          ],
+          "description": "Select the theme for Mermaid diagrams. 'pinklily' uses the extension's custom CSS."
+        }
+      }
+    }
   },
   "icon": "image/icon.png",
   "scripts": {

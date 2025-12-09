@@ -2,6 +2,7 @@ import mermaid from 'mermaid';
 import { select } from 'd3-selection';
 import { createToolbar, createToolbarButton, applyContainerStyles, setupD3Zoom, preventEventPropagation } from './utils.js';
 
+// Basic initialization. Theme is overridden by per-diagram directives.
 mermaid.initialize({
   startOnLoad: false,
   securityLevel: 'loose',
@@ -19,12 +20,26 @@ const renderMermaid = async () => {
     if (pre.dataset.mermaidRendered) continue;
     pre.dataset.mermaidRendered = 'true';
 
-    let raw = block.textContent.trim();
+    // Check if code block has the theme class (injected by token.info)
+    const hasPinkLilyClass = block.classList.contains('mpp-theme-pinklily') || block.className.includes('mpp-theme-pinklily');
+
+    // EMERGENCY FALLBACK: If backend plugin didn't run (no class), default to PinkLily styling
+    // This ensures the custom theme is applied even if extension activation failed.
+    const shouldApplyPinkLily = hasPinkLilyClass || true;
+
     const id = `mermaid-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+    let raw = block.textContent.trim();
+    console.log('[MPP Render] Processing block:', id);
+    console.log('[MPP Render] Raw content:', raw);
 
     const container = document.createElement('div');
     container.classList.add('mermaid-container');
     container.classList.add('mermaid');
+
+    if (shouldApplyPinkLily) {
+        container.classList.add('mpp-theme-pinklily');
+    }
 
     applyContainerStyles(container);
 
