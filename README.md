@@ -15,13 +15,13 @@
 
 ## ✨ Features
 
-- **Rich Diagram Support**:
+- **Diagram Support**:
   - **Markmap**: Render Markdown lists as interactive, zoomable mindmaps.
   - **Mermaid**: Render Flowcharts, Sequence diagrams, Gantt charts, etc., with extensive customization.
   - **Graphviz (DOT)**: Render complex graph visualizations using the DOT language (powered by WebAssembly).
 
 - **Interactive Zoom & Pan**:
-  - **Smart Scroll**: Scroll naturally past diagrams. Hold **Ctrl** + **Scroll** to zoom into the diagram.
+  - **Zoom**: Mouse wheel to zoom in/out.
   - **Pan**: Click and drag to pan around large diagrams.
   - **Toolbar**: Dedicated "Reset Zoom" button for easy navigation.
 
@@ -35,6 +35,8 @@ Use standard Markdown code blocks with the appropriate language identifiers: `ma
 
 ### Markmap (Mindmap)
 
+![markmap](./demo/markmap.png)
+
 ```markdown
     ```markmap
     # Root Topic
@@ -47,6 +49,8 @@ Use standard Markdown code blocks with the appropriate language identifiers: `ma
 
 ### Mermaid
 
+![Mermaid](./demo/mermaid.png)
+
 ```markdown
     ```mermaid
     flowchart LR
@@ -58,6 +62,8 @@ Use standard Markdown code blocks with the appropriate language identifiers: `ma
 ```
 
 ### Graphviz (DOT)
+
+![graphviz](./demo/graphviz.png)
 
 ```markdown
     ```graphviz

@@ -1,6 +1,9 @@
-import { Graphviz } from "@hpcc-js/wasm";
+import Viz from 'viz.js';
+import { Module, render } from 'viz.js/full.render.js';
 import { select } from 'd3-selection';
 import { createToolbar, createToolbarButton, applyContainerStyles, setupD3Zoom, preventEventPropagation } from './utils.js';
+
+let viz = new Viz({ Module, render });
 
 const renderGraphviz = async () => {
   const blocks = document.querySelectorAll('pre code.language-graphviz, pre code.language-dot');
@@ -17,24 +20,14 @@ const renderGraphviz = async () => {
     container.classList.add('graphviz');
 
     applyContainerStyles(container);
-
-    applyContainerStyles(container);
-
-
-    applyContainerStyles(container);
-
-    // No aggressive CSS injection effectively allows custom colors to work.
-    // We will do "Smart Defaulting" in JS below.
-
-
+    // Explicitly set position relative and height for zoom/pan
     container.style.position = 'relative';
     container.style.height = '600px';
 
     pre.replaceWith(container);
 
     try {
-      const graphviz = await Graphviz.load();
-      const svgContent = graphviz.layout(raw, "svg", "dot");
+      const svgContent = await viz.renderString(raw);
       container.innerHTML = svgContent;
 
       // Smart Theme Application

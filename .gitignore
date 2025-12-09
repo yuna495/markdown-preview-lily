@@ -3,4 +3,5 @@ dist
 .vscode-test
 *.vsix
 .DS_Store
+Thumbs.db
 build_output.txt

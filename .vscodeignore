@@ -13,3 +13,8 @@ jsconfig.json
 **/*.test.js
 build_output.txt
 node_modules/**
+demo/**
+debug_transform.js
+package-lock.json
+**/.DS_Store
+**/Thumbs.db

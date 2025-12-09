@@ -1,39 +1,39 @@
-# Markdown Demo
+# **Markdown Preview Plus** Demo
 
 ## markmap
 
 ```markmap
-## マークマップ表示デモ
-マインドマップのようにマークダウンの内容を図で表現します。
+## Markmap Display Demo
+Visualizes Markdown content as a diagram like a mind map.
 
-### 見出しレベル3
+### Heading Level 3
 
-- **見出し**:
-  情報を整理するための階層構造を作成します。
-- **リスト**:
-  情報を箇条書きに整理します。
-- **強調**:
-  **太字**または*斜体*。
-- `1行コードフェンス`
-- コードフェンス
+- **Heading**:
+  Creates a hierarchical structure to organize information.
+- List:
+  Organizes information in bullet points.
+- **Emphasis**:
+  **Bold** or *Italic*.
+- `Inline code fence`
+- Code fence
     ```python
     print("hello")
     ```
 
-### リストの例
+### List Example
 
-- 最初の項目
-- 2番目の項目
-  - 入れ子の項目 A
-  - 入れ子の項目 B
-- 3番目の項目
+* First item
+* Second item
+  * Nested item A
+  * Nested item B
+* Third item
 
-### 番号付きリストの例
+### Numbered List Example
 
-1. ステップ 1: 準備
-1. ステップ 2: 実行
-1. ステップ 3: [リンク](https://)
-1. ステップ 4: リンク先を表示
+1. Step 1: Preparation
+1. Step 2: Execution
+1. Step 3: [Link](https://)
+1. Step 4: Show link destination
 
 ```
 
@@ -43,11 +43,11 @@
 
 ```mermaid
 graph TD;
-    A[開始] --> B[処理];
-    B --> C{判断};
-    C -- はい --> D[処理1];
-    C -- いいえ --> E[処理2];
-    D --> F[終了];
+    A[Start] --> B[Process];
+    B --> C{Decision};
+    C -- Yes --> D[Process 1];
+    C -- No --> E[Process 2];
+    D --> F[End];
     E --> F;
 ```
 
@@ -59,23 +59,23 @@ sequenceDiagram
     participant Server
     participant Database
 
-    Client->>+Server: リクエスト送信
-    Server->>+Database: データ問い合わせ
-    Database-->>-Server: 結果返却
-    Server-->>-Client: レスポンス送信
+    Client->>+Server: Send Request
+    Server->>+Database: Query Data
+    Database-->>-Server: Return Result
+    Server-->>-Client: Send Response
 
-    Note over Client,Server: REST API通信
+    Note over Client,Server: REST API Communication
 
-    alt データあり
-        Client->>Server: データ更新要求
-        Server->>Database: 更新実行
-    else データなし
-        Client->>Server: データ作成要求
-        Server->>Database: 作成実行
+    alt Data Exists
+        Client->>Server: Request Data Update
+        Server->>Database: Execute Update
+    else No Data
+        Client->>Server: Request Data Creation
+        Server->>Database: Execute Creation
     end
 ```
 
-- Crass Diagram
+- Class Diagram
 
 ```mermaid
 classDiagram
@@ -105,13 +105,13 @@ classDiagram
 
 ```mermaid
 stateDiagram-v2
-    [*] --> 待機中
-    待機中 --> 実行中: 開始
-    実行中 --> 完了: 成功
-    実行中 --> エラー: 失敗
-    完了 --> [*]
-    エラー --> 待機中: リトライ
-    エラー --> [*]: 中止
+    [*] --> Idle
+    Idle --> Running: Start
+    Running --> Completed: Success
+    Running --> Error: Failure
+    Completed --> [*]
+    Error --> Idle: Retry
+    Error --> [*]: Abort
 ```
 
 - ER Diagram
@@ -146,22 +146,22 @@ erDiagram
     USER ||--o{ COMMENT : makes
 ```
 
-- Gantchart
+- Gantt Chart
 
 ```mermaid
 gantt
-    title ソフトウェア開発プロジェクト
+    title Software Development Project
     dateFormat  YYYY-MM-DD
 
-    section 計画
-    プロジェクト開始       :done, a1, 2024-01-01, 2d
-    要件分析       :active, a2, after a1, 1w
-    システム設計       :a3, after a2, 2w
+    section Planning
+    Project Start       :done, a1, 2024-01-01, 2d
+    Requirement Analysis       :active, a2, after a1, 1w
+    System Design       :a3, after a2, 2w
 
-    section 開発
-    バックエンド開発      :crit, a4, after a3, 4w
-    フロントエンド開発      :a5, after a3, 4w
-    API統合       :a6, after a4, 1w
+    section Development
+    Backend Development      :crit, a4, after a3, 4w
+    Frontend Development      :a5, after a3, 4w
+    API Integration       :a6, after a4, 1w
 
 ```
 
