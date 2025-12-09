@@ -14,40 +14,40 @@ import { zoom, zoomIdentity } from 'd3-zoom';
  * @returns {object} { zoomBehavior, initialTransform }
  */
 export function setupD3Zoom(d3Svg, d3G, container, initialBBox) {
-    const containerWidth = container.clientWidth || 800;
-    const containerHeight = container.clientHeight || 600;
+  const containerWidth = container.clientWidth || 800;
+  const containerHeight = container.clientHeight || 600;
 
-    // Add padding
-    const padding = 20;
-    const widthRatio = (containerWidth - padding * 2) / initialBBox.width;
-    const heightRatio = (containerHeight - padding * 2) / initialBBox.height;
-    const minRatio = Math.min(widthRatio, heightRatio);
+  // Add padding
+  const padding = 20;
+  const widthRatio = (containerWidth - padding * 2) / initialBBox.width;
+  const heightRatio = (containerHeight - padding * 2) / initialBBox.height;
+  const minRatio = Math.min(widthRatio, heightRatio);
 
-    // Limit initial zoom
-    const initialScale = Math.min(minRatio, 1);
+  // Limit initial zoom
+  const initialScale = Math.min(minRatio, 1);
 
-    // Center logic
-    const midX = initialBBox.x + initialBBox.width / 2;
-    const midY = initialBBox.y + initialBBox.height / 2;
+  // Center logic
+  const midX = initialBBox.x + initialBBox.width / 2;
+  const midY = initialBBox.y + initialBBox.height / 2;
 
-    const initialTranslateX = (containerWidth / 2) - (midX * initialScale);
-    const initialTranslateY = (containerHeight / 2) - (midY * initialScale);
+  const initialTranslateX = (containerWidth / 2) - (midX * initialScale);
+  const initialTranslateY = (containerHeight / 2) - (midY * initialScale);
 
-    const initialTransform = zoomIdentity
-        .translate(initialTranslateX, initialTranslateY)
-        .scale(initialScale);
+  const initialTransform = zoomIdentity
+    .translate(initialTranslateX, initialTranslateY)
+    .scale(initialScale);
 
-    const zoomBehavior = zoom()
-        .scaleExtent([0.1, 10])
-        .on('zoom', (event) => {
-            d3G.attr('transform', event.transform);
-        });
+  const zoomBehavior = zoom()
+    .scaleExtent([0.1, 10])
+    .on('zoom', (event) => {
+      d3G.attr('transform', event.transform);
+    });
 
-    d3Svg.call(zoomBehavior);
-    d3Svg.call(zoomBehavior.transform, initialTransform);
-    d3Svg.on('dblclick.zoom', null);
+  d3Svg.call(zoomBehavior);
+  d3Svg.call(zoomBehavior.transform, initialTransform);
+  d3Svg.on('dblclick.zoom', null);
 
-    return { zoomBehavior, initialTransform };
+  return { zoomBehavior, initialTransform };
 }
 
 /**
@@ -55,10 +55,10 @@ export function setupD3Zoom(d3Svg, d3G, container, initialBBox) {
  * @param {HTMLElement} element - The target element
  */
 export function preventEventPropagation(element) {
-    const events = ['wheel', 'mousedown', 'mouseup', 'mousemove', 'click', 'dblclick', 'pointerdown', 'pointerup', 'pointermove', 'contextmenu'];
-    events.forEach(evt => {
-        element.addEventListener(evt, (e) => e.stopPropagation());
-    });
+  const events = ['wheel', 'mousedown', 'mouseup', 'mousemove', 'click', 'dblclick', 'pointerdown', 'pointerup', 'pointermove', 'contextmenu'];
+  events.forEach(evt => {
+    element.addEventListener(evt, (e) => e.stopPropagation());
+  });
 }
 
 
@@ -67,14 +67,14 @@ export function preventEventPropagation(element) {
  * @param {HTMLElement} container - The container element
  */
 export function applyContainerStyles(container) {
-    container.style.width = '90%';          // Slightly narrower as requested
-    container.style.margin = '10px auto';   // Center and add vertical space
-    container.style.display = 'block';      // Ensure block layout
+  container.style.width = '90%';      // Slightly narrower as requested
+  container.style.margin = '10px auto';   // Center and add vertical space
+  container.style.display = 'block';    // Ensure block layout
 
-    // Unified Border Styles
-    container.style.border = '1px solid #666';
-    container.style.borderRadius = '4px';
-    container.style.boxSizing = 'border-box';
+  // Unified Border Styles
+  container.style.border = '1px solid #666';
+  container.style.borderRadius = '4px';
+  container.style.boxSizing = 'border-box';
 }
 
 /**
@@ -83,22 +83,22 @@ export function applyContainerStyles(container) {
  * @returns {HTMLElement} The styled toolbar element
  */
 export function createToolbar(container) {
-    const toolbar = document.createElement('div');
-    toolbar.style.position = 'absolute';
-    toolbar.style.right = '10px';
-    toolbar.style.bottom = '10px';
-    toolbar.style.display = 'flex';
-    toolbar.style.flexDirection = 'column';
-    toolbar.style.gap = '5px';
-    toolbar.style.zIndex = '1000';
+  const toolbar = document.createElement('div');
+  toolbar.style.position = 'absolute';
+  toolbar.style.right = '10px';
+  toolbar.style.bottom = '10px';
+  toolbar.style.display = 'flex';
+  toolbar.style.flexDirection = 'column';
+  toolbar.style.gap = '5px';
+  toolbar.style.zIndex = '1000';
 
-    // Ensure container has relative positioning so absolute works correctly
-    if (getComputedStyle(container).position === 'static') {
-        container.style.position = 'relative';
-    }
+  // Ensure container has relative positioning so absolute works correctly
+  if (getComputedStyle(container).position === 'static') {
+    container.style.position = 'relative';
+  }
 
-    container.appendChild(toolbar);
-    return toolbar;
+  container.appendChild(toolbar);
+  return toolbar;
 }
 
 /**
@@ -109,27 +109,27 @@ export function createToolbar(container) {
  * @returns {HTMLElement} The styled button element
  */
 export function createToolbarButton(text, onClick, title = '') {
-    const btn = document.createElement('button');
-    btn.textContent = text;
-    if (title) btn.title = title;
+  const btn = document.createElement('button');
+  btn.textContent = text;
+  if (title) btn.title = title;
 
-    // Style
-    btn.style.width = '30px';
-    btn.style.height = '30px';
-    btn.style.borderRadius = '50%';
-    btn.style.border = '1px solid #1f8';
-    btn.style.background = '#222';
-    btn.style.cursor = 'pointer';
-    btn.style.display = 'flex';
-    btn.style.alignItems = 'center';
-    btn.style.justifyContent = 'center';
-    btn.style.color = '#1f8';
+  // Style
+  btn.style.width = '30px';
+  btn.style.height = '30px';
+  btn.style.borderRadius = '50%';
+  btn.style.border = '1px solid #1f8';
+  btn.style.background = '#222';
+  btn.style.cursor = 'pointer';
+  btn.style.display = 'flex';
+  btn.style.alignItems = 'center';
+  btn.style.justifyContent = 'center';
+  btn.style.color = '#1f8';
 
-    // Event
-    btn.onclick = (e) => {
-        e.stopPropagation();
-        onClick(e);
-    };
+  // Event
+  btn.onclick = (e) => {
+    e.stopPropagation();
+    onClick(e);
+  };
 
-    return btn;
+  return btn;
 }

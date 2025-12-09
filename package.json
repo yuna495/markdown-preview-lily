@@ -2,7 +2,7 @@
   "name": "markdown-preview-plus",
   "displayName": "Markdown Preview Plus",
   "description": "Show markmap in markdown preview",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -17,7 +17,8 @@
     "commands": [],
     "markdown.previewScripts": [
       "./dist/markmap.js",
-      "./dist/mermaid.js"
+      "./dist/mermaid.js",
+      "./dist/graphviz.js"
     ],
     "markdown.previewStyles": [
       "./node_modules/markmap-toolbar/dist/style.css"
@@ -30,7 +31,8 @@
     "pretest": "npm run lint",
     "test": "vscode-test",
     "build:script": "npx esbuild ./src/markmap.js --bundle --outfile=dist/markmap.js --format=iife --platform=browser",
-    "build:mermaid": "npx esbuild ./src/mermaid.js --bundle --outfile=dist/mermaid.js --format=iife --platform=browser"
+    "build:mermaid": "npx esbuild ./src/mermaid.js --bundle --outfile=dist/mermaid.js --format=iife --platform=browser",
+    "build:graphviz": "npx esbuild ./src/graphviz.js --bundle --outfile=dist/graphviz.js --format=iife --platform=browser"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",
@@ -46,6 +48,7 @@
     "url": "https://github.com/yuna495/markdown-preview-plus.git"
   },
   "dependencies": {
+    "@hpcc-js/wasm": "^2.29.0",
     "d3-scale": "^4.0.2",
     "d3-selection": "^3.0.0",
     "d3-zoom": "^3.0.0",
