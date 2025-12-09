@@ -486,3 +486,12 @@ li.task-list-item::after {
 .markmap-node a {
   color: var(--markmap-link-color) !important;
 }
+
+/*//////////////////////////////////////////////*/
+/* code */
+/*//////////////////////////////////////////////*/
+
+code,
+pre {
+  background-color: #000000 !important;
+}
