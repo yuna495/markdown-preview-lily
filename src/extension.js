@@ -3,7 +3,6 @@ const vscode = require('vscode');
 
 // Global Output Channel
 const outputChannel = vscode.window.createOutputChannel("Markdown Preview Plus");
-outputChannel.show(true); // Force visibility
 console.log = (msg) => outputChannel.appendLine(`[Log] ${msg}`);
 console.error = (msg) => outputChannel.appendLine(`[Error] ${msg}`);
 
@@ -28,13 +27,7 @@ try {
 function activate(context) {
 	console.log('[MPP Main] Markdown Preview Plus is now active!');
 
-    // Test Command
-    const disposable = vscode.commands.registerCommand('markdown-preview-plus.test', () => {
-        vscode.window.showInformationMessage('Markdown Preview Plus is Active!');
-        console.log('[MPP Main] Test command executed.');
-    });
 
-    context.subscriptions.push(disposable);
 
     return {
         extendMarkdownIt(md) {

@@ -9,6 +9,7 @@
     - [Mermaid](#mermaid)
     - [Graphviz (DOT)](#graphviz-dot)
   - [🎨 Customization](#-customization)
+    - [Mermaid Color Theme Change](#mermaid-color-theme-change)
     - [Default Theme: Pink Lily](#default-theme-pink-lily)
   - [License](#license)
 
@@ -78,6 +79,12 @@ You can customize the look and feel of your diagrams by creating a `style.css` f
 
 ```json
 "markdown.styles": ["./style.css"]
+```
+
+### Mermaid Color Theme Change
+
+```json
+"markdown-preview-plus.mermaidTheme": "pinklily"  //default, neutral, dark, forest, base
 ```
 
 ### Default Theme: Pink Lily
