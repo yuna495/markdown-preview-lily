@@ -12,8 +12,4 @@ jsconfig.json
 **/*.ts
 **/*.test.js
 build_output.txt
-node_modules/@types/**
-node_modules/eslint/**
-node_modules/@vscode/test-cli/**
-node_modules/@vscode/test-electron/**
-node_modules/esbuild/**
+node_modules/**

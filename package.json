@@ -21,7 +21,7 @@
       "./dist/graphviz.js"
     ],
     "markdown.previewStyles": [
-      "./node_modules/markmap-toolbar/dist/style.css"
+      "./dist/markmap-toolbar.css"
     ],
     "markdown.markdownItPlugins": true
   },
@@ -30,9 +30,11 @@
     "lint": "eslint .",
     "pretest": "npm run lint",
     "test": "vscode-test",
+    "build:style": "copy node_modules\\markmap-toolbar\\dist\\style.css dist\\markmap-toolbar.css",
     "build:script": "npx esbuild ./src/markmap.js --bundle --outfile=dist/markmap.js --format=iife --platform=browser",
     "build:mermaid": "npx esbuild ./src/mermaid.js --bundle --outfile=dist/mermaid.js --format=iife --platform=browser",
-    "build:graphviz": "npx esbuild ./src/graphviz.js --bundle --outfile=dist/graphviz.js --format=iife --platform=browser"
+    "build:graphviz": "npx esbuild ./src/graphviz.js --bundle --outfile=dist/graphviz.js --format=iife --platform=browser",
+    "build": "npm run build:style && npm run build:script && npm run build:mermaid && npm run build:graphviz"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",
@@ -41,13 +43,7 @@
     "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.3.9",
     "esbuild": "^0.21.4",
-    "eslint": "^8.57.0"
-  },
-  "repository": {
-    "type": "github",
-    "url": "https://github.com/yuna495/markdown-preview-plus.git"
-  },
-  "dependencies": {
+    "eslint": "^8.57.0",
     "@hpcc-js/wasm": "^2.29.0",
     "d3-scale": "^4.0.2",
     "d3-selection": "^3.0.0",
@@ -56,6 +52,10 @@
     "markmap-toolbar": "^0.18.12",
     "markmap-view": "^0.18.12",
     "mermaid": "^11.12.2"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/yuna495/markdown-preview-plus.git"
   },
   "license": "MIT"
 }

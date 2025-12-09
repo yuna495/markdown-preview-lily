@@ -38187,6 +38187,9 @@ ${end2.comment}` : end2.comment;
       svg.style.display = "block";
       const style = document.createElement("style");
       style.textContent = `
+      h1,h2,h3,h4,h5,h6 {
+        color: #FF14E0 ;
+      }
       .markmap-node {
         cursor: pointer;
       }

@@ -108,6 +108,12 @@ function renderMarkmaps() {
 
     const style = document.createElement('style');
     style.textContent = `
+      .markmap-node foreignObject {
+
+        color: #11ff84 !important;
+        font-family: var(--markmap-font-family) !important;
+        line-height: 1.2;
+      }
       .markmap-node {
         cursor: pointer;
       }
