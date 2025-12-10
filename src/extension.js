@@ -2,7 +2,7 @@
 const vscode = require('vscode');
 
 // Global Output Channel
-const outputChannel = vscode.window.createOutputChannel("Markdown Preview Plus");
+const outputChannel = vscode.window.createOutputChannel("Markdown Preview Lily");
 console.log = (msg) => outputChannel.appendLine(`[Log] ${msg}`);
 console.error = (msg) => outputChannel.appendLine(`[Error] ${msg}`);
 

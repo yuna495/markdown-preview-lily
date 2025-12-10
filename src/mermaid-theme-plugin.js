@@ -8,7 +8,7 @@ module.exports = function mermaidThemePlugin(md) {
     // 1. Inject Global Configuration via Core Ruler (Class-Based)
     md.core.ruler.push('mpp_config_injector', function (state) {
         try {
-            const config = vscode.workspace.getConfiguration('markdown-preview-plus');
+            const config = vscode.workspace.getConfiguration('markdown-preview-lily');
             const theme = config.get('mermaidTheme', 'pinklily');
 
             // Generate a sanitizer-safe HTML block
@@ -30,7 +30,7 @@ module.exports = function mermaidThemePlugin(md) {
 
         if (info === 'mermaid') {
             try {
-                const config = vscode.workspace.getConfiguration('markdown-preview-plus');
+                const config = vscode.workspace.getConfiguration('markdown-preview-lily');
                 const theme = config.get('mermaidTheme', 'pinklily');
 
                 const rawContent = token.content;

@@ -2,7 +2,7 @@ import { select } from 'd3-selection';
 import { zoom, zoomIdentity } from 'd3-zoom';
 
 /**
- * Common utilities for Markdown Preview Plus diagram rendering
+ * Common utilities for Markdown Preview Lily diagram rendering
  */
 
 /**

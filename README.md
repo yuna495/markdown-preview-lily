@@ -1,8 +1,8 @@
-# Markdown Preview Plus
+# Markdown Preview Lily
 
-**Markdown Preview Plus** extends VS Code's built-in Markdown preview to render interactive diagrams including **Markmap** (Mindmaps), **Mermaid** graphs, and **Graphviz** (DOT) diagrams.
+**Markdown Preview Lily** extends VS Code's built-in Markdown preview to render interactive diagrams including **Markmap** (Mindmaps), **Mermaid** graphs, and **Graphviz** (DOT) diagrams.
 
-- [Markdown Preview Plus](#markdown-preview-plus)
+- [Markdown Preview Lily](#markdown-preview-lily)
   - [✨ Features](#-features)
   - [💡 Usage](#-usage)
     - [Markmap (Mindmap)](#markmap-mindmap)
@@ -91,7 +91,7 @@ You can customize the look and feel of your diagrams by creating a `style.css` f
 - settings.json Configuration
 
 ```json
-"markdown-preview-plus.mermaidTheme": "pinklily"  //default, neutral, dark, forest, base
+"markdown-preview-lily.mermaidTheme": "pinklily"  //default, neutral, dark, forest, base
 ```
 
 - Default Mermaid Theme: `Pink Lily`
