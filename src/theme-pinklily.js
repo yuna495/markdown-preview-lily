@@ -1,19 +1,20 @@
 export const getPinkLilyVariables = () => {
-    const primary = "#272b2b";
-    const secondary = "#171b19";
-    const tertiary = "#202020";
+    const primary = "#101010ff";
+    const secondary = "#202020";
+    const tertiary = "#3a3d41";
     const green = "#11ff84";
     const pinkText = "#fd9bcc";
     const cyanText = "#46d2e8";
     const pinkLine = "#ff0080";
-    const purple = "ff14e028";
-    const yellow = "#fdd26e";
-    const blue = "000080";
+    const purple = "#ff14e0";
+    const yellow = "#ffd900";
+    const orange = "#ffa874"
+    const blue = "#00e6bb";
     const red = "#ff0000";
-    const white = "#ffffff";
+    const white = "#fbd2ffff";
     const black = "#000000";
     const grayBorder = "#666666";
-    const grayBkg = "#333333";
+    const grayBkg = "#444444";
 
     return {
         // Base Variables
@@ -41,7 +42,7 @@ export const getPinkLilyVariables = () => {
         "nodeBkg": primary,
         "nodeBorder": green,
         "nodeTextColor": pinkText,
-        "clusterBkg": tertiary,
+        "clusterBkg": grayBkg,
         "clusterBorder": green,
         "defaultLinkColor": pinkLine,
         "titleColor": pinkText,
@@ -114,31 +115,31 @@ export const getPinkLilyVariables = () => {
         "compositeTitleBackground": secondary,
         "compositeBorder": green,
         "innerEndBackground": primary,
-        "specialStateColor": pinkLine, // End circles etc
+        "specialStateColor": purple, // Vibrant purple for special states (start/end)
 
         // Class Diagram
         "classText": pinkText,
 
-        // Pie Chart
-        "pie1": primary,
-        "pie2": secondary,
-        "pie3": tertiary,
-        "pie4": "#333",
-        "pie5": "#444",
-        "pie6": "#555",
-        "pie7": "#666",
-        "pie8": "#777",
-        "pie9": "#888",
-        "pie10": "#999",
-        "pie11": "#aaa",
-        "pie12": "#bbb",
+        // Pie Chart (Uses new vibrant palette)
+        "pie1": primary,    // Dark base
+        "pie2": purple,     // Purple
+        "pie3": blue,       // Blue/Turquoise
+        "pie4": pinkLine,   // Pink
+        "pie5": yellow,     // Yellow
+        "pie6": orange,     // Orange
+        "pie7": green,      // Green
+        "pie8": secondary,  // Dark Gray
+        "pie9": tertiary,   // Light Gray
+        "pie10": cyanText,  // Cyan
+        "pie11": red,       // Red
+        "pie12": white,     // White
         "pieTitleTextColor": pinkText,
         "pieLegendTextColor": pinkText,
         "pieStrokeColor": green,
         "pieStrokeWidth": "2px",
         "pieOuterStrokeWidth": "2px",
         "pieOuterStrokeColor": green,
-        "pieOpacity": "0.7",
+        "pieOpacity": "0.8",
 
         // Quadrant Chart
         "quadrant1Fill": tertiary,
@@ -166,31 +167,34 @@ export const getPinkLilyVariables = () => {
         "relationLabelBackground": tertiary,
         "relationLabelColor": pinkText,
 
-        // Git Graph
+        // Git Graph (Uses new vibrant palette)
         "git0": pinkLine,
         "git1": green,
         "git2": cyanText,
-        "git3": red,
-        "git4": white,
-        "git5": "#888",
-        "git6": "#aaa",
-        "git7": "#ccc",
+        "git3": purple,
+        "git4": yellow,
+        "git5": orange,
+        "git6": blue,
+        "git7": red,
+        // Inverted colors for git (often used for labels or branch lines depending on version)
         "gitInv0": pinkLine,
         "gitInv1": green,
         "gitInv2": cyanText,
-        "gitInv3": red,
-        "gitInv4": white,
-        "gitInv5": "#888",
-        "gitInv6": "#aaa",
-        "gitInv7": "#ccc",
+        "gitInv3": purple,
+        "gitInv4": yellow,
+        "gitInv5": orange,
+        "gitInv6": blue,
+        "gitInv7": red,
+
         "gitBranchLabel0": white,
         "gitBranchLabel1": white,
         "gitBranchLabel2": white,
         "gitBranchLabel3": white,
-        "gitBranchLabel4": white,
-        "gitBranchLabel5": black,
-        "gitBranchLabel6": black,
-        "gitBranchLabel7": black,
+        "gitBranchLabel4": black, // Yellow needs dark text
+        "gitBranchLabel5": black, // Orange needs dark text
+        "gitBranchLabel6": black, // Blue needs dark text? No, blue is #00e6bb -> dark is better
+        "gitBranchLabel7": white,
+
         "tagLabelColor": cyanText,
         "tagLabelBackground": primary,
         "tagLabelBorder": green,
